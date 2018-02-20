@@ -1,1 +1,13 @@
-@import "../node_modules/bulma/sass/utilities/initial-variables";
+@import '../node_modules/bulma/sass/utilities/initial-variables';
+
+// Colors
+$red: #d3242e;
+
+$primary: $red;
+
+// Sizes
+$gap: 150px;
+$vd-sidebar-width: 20rem;
+
+// Shadows
+$vd-shadow: 1px 1px 2px $grey-lighter;

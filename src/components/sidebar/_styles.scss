@@ -1,0 +1,15 @@
+.vd-sidebar-column {
+	width: $vd-sidebar-width;
+	flex: none;
+	padding: 5rem 0;
+
+	.card {
+		height: 100%;
+
+		.content .menu-list {
+			list-style: none;
+			margin-left: 0;
+			margin-right: 0;
+		}
+	}
+}

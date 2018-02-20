@@ -1,27 +1,25 @@
+/* eslint no-underscore-dangle:0 */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import ReduxPromise from 'redux-promise';
+import ReduxThunk from 'redux-thunk';
 
+import App from './components/app';
 import reducers from './reducers';
 import './main.scss';
 
-const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
+const createStoreWithMiddleware = applyMiddleware(ReduxPromise, ReduxThunk)(createStore);
+const store = createStoreWithMiddleware(
+  reducers,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 ReactDOM.render(
-  <Provider store={createStoreWithMiddleware(reducers)}>
-    <BrowserRouter>
-      <div>
-        <Switch>
-          <Route
-            path="/"
-            render={() => <h1>Redux Starter</h1>}
-          />
-        </Switch>
-      </div>
-    </BrowserRouter>
+  <Provider store={store}>
+    <App />
   </Provider>,
   document.querySelector('.root')
 );

@@ -1,0 +1,13 @@
+html,
+body,
+.root {
+	height: 100%;
+	background-color: $white-ter;
+}
+
+.vd-content {
+	background-color: $white-ter;
+	padding: 5rem 0 5rem 2rem;
+	height: 100%;
+	overflow-y: scroll;
+}
