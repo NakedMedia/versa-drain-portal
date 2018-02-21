@@ -3,9 +3,13 @@ import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
+import Nav from './nav/nav';
 import Sidebar from './sidebar/sidebar';
+
 import Login from './login/login';
+
 import Dashboard from './dashboard/dashboard';
+import Clients from './clients/clients';
 
 class App extends Component {
 	constructor(props) {
@@ -21,13 +25,14 @@ class App extends Component {
 		return (
 			<BrowserRouter>
 				<div className="container is-fluid">
+					<Nav />
 					<div className="columns is-marginless">
-						<Sidebar />
+						<Sidebar user={this.props.me} />
 						<div className="column vd-content">
 							<Switch>
 								{/*----- Dashboard Route -----*/}
 								<Route path="/dashboard" component={Dashboard} />
-
+								<Route path="/clients" component={Clients} />
 								{/*----- Default Route -----*/}
 								<Redirect from="/" to="/dashboard" push />
 							</Switch>
@@ -40,7 +45,7 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-	return { isLoggedIn: state.auth.isLoggedIn };
+	return { isLoggedIn: state.auth.isLoggedIn, me: state.users.me };
 }
 
 export default connect(mapStateToProps, actions)(App);

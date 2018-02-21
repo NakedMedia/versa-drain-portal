@@ -28,9 +28,10 @@ export function fetchAll(token) {
 	return dispatch => {
 		dispatch({ type: types.AUTH_LOGIN });
 
-		axios.all([axios.get(`${routes.root}/reports`)]).then(
-			axios.spread(reports => {
+		axios.all([axios.get(`${routes.root}/reports`), axios.get(`${routes.root}/me`)]).then(
+			axios.spread((reports, me) => {
 				dispatch({ type: types.FETCH_REPORTS, payload: reports.data });
+				dispatch({ type: types.FETCH_ME, payload: me.data });
 			})
 		);
 	};
