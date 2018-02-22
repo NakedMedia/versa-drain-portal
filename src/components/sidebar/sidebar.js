@@ -8,13 +8,24 @@ export default props => {
 		if (!user) return <div className="loader" />;
 
 		return (
-			<div>
-				<figure className="image is-96x96">
-					<img role="presentation" src={emptyProfile} />
-				</figure>
-				<br />
-				<h5>Welcome, {props.user.name}</h5>
-			</div>
+			<nav className="level">
+				<div className="level-left">
+					<figure className="level-item image is-96x96">
+						<img role="presentation" src={props.user.img || emptyProfile} />
+					</figure>
+				</div>
+				<div className="level-right">
+					<div className="level-item has-text-right">
+						<p>
+							Welcome, {props.user.name}
+							<br />
+							<small>{props.user.phone || props.user.contact_phone}</small>
+							<br />
+							<small>{props.user.email || props.user.contact_email}</small>
+						</p>
+					</div>
+				</div>
+			</nav>
 		);
 	}
 
@@ -44,6 +55,14 @@ export default props => {
 										<span>My Clients</span>
 									</NavLink>
 								</li>
+								<li>
+									<NavLink activeClassName="is-active" to="/reports">
+										<span className="icon is-medium">
+											<i className="fas fa-clipboard" />
+										</span>
+										<span>Reports</span>
+									</NavLink>
+								</li>
 							</ul>
 							<p className="menu-label">Account</p>
 							<ul className="menu-list">
@@ -56,7 +75,12 @@ export default props => {
 									</NavLink>
 								</li>
 								<li>
-									<a>
+									<a
+										href=""
+										onClick={() => {
+											props.logout();
+										}}
+									>
 										<span className="icon is-medium">
 											<i className="fas fa-power-off" />
 										</span>

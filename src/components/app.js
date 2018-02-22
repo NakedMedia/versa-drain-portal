@@ -27,7 +27,7 @@ class App extends Component {
 				<div className="container is-fluid">
 					<Nav />
 					<div className="columns is-marginless">
-						<Sidebar user={this.props.me} />
+						<Sidebar user={this.props.me} logout={this.props.logout} />
 						<div className="column vd-content">
 							<Switch>
 								{/*----- Dashboard Route -----*/}

@@ -5,10 +5,23 @@ import * as actions from '../../actions';
 import logo from '../../img/logo.png';
 
 class Login extends Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			isLoading: false,
+		};
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.error) this.setState({ isLoading: false });
+	}
+
 	onFormSubmit(e) {
 		e.preventDefault();
 		const id = this.refs.id.value;
 		const password = this.refs.password.value;
+		this.setState({ isLoading: true });
 
 		this.props.login(id, password);
 	}
@@ -46,7 +59,13 @@ class Login extends Component {
 
 						<div className="field">
 							<div className="control">
-								<button className="button is-fullwidth">Login</button>
+								<button
+									className={`button is-fullwidth ${this.state.isLoading
+										? 'is-loading'
+										: ''}`}
+								>
+									Login
+								</button>
 							</div>
 						</div>
 
