@@ -5,6 +5,32 @@ body,
 	background-color: $white-ter;
 }
 
+.is-size-7 {
+	font-size: 0.75rem;
+}
+
+.has-text-grey {
+	color: $grey;
+}
+
+.has-text-grey-light {
+	color: $grey-light;
+}
+
+.is-width-128 {
+	width: 128px;
+}
+
+.level-vertical {
+	flex-direction: column;
+}
+
+.vd-profile-picture {
+	img {
+		border-radius: $radius-rounded;
+	}
+}
+
 .vd-content {
 	background-color: $white-ter;
 	padding: 2rem 1rem;

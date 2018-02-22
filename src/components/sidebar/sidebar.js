@@ -10,7 +10,7 @@ export default props => {
 		return (
 			<nav className="level">
 				<div className="level-left">
-					<figure className="level-item image is-96x96">
+					<figure className="level-item image is-96x96 vd-profile-picture">
 						<img role="presentation" src={props.user.img || emptyProfile} />
 					</figure>
 				</div>
@@ -30,7 +30,7 @@ export default props => {
 	}
 
 	return (
-		<div className="column vd-sidebar-column">
+		<div className="column vd-sidebar-column is-hidden-mobile">
 			<div className="card">
 				<div className="card-content">
 					<div className="content">

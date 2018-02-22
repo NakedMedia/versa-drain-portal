@@ -13,7 +13,7 @@ const Clients = props => {
 			<div className="box" key={client.id}>
 				<article className="media">
 					<div className="media-left">
-						<figure className="image is-64x64">
+						<figure className="image is-64x64 vd-profile-picture">
 							<img src={client.img || emptyProfile} alt="Client" />
 						</figure>
 					</div>

@@ -10,6 +10,7 @@ import Login from './login/login';
 
 import Dashboard from './dashboard/dashboard';
 import Clients from './clients/clients';
+import Reports from './reports/reports';
 
 class App extends Component {
 	constructor(props) {
@@ -33,6 +34,7 @@ class App extends Component {
 								{/*----- Dashboard Route -----*/}
 								<Route path="/dashboard" component={Dashboard} />
 								<Route path="/clients" component={Clients} />
+								<Route path="/reports" component={Reports} />
 								{/*----- Default Route -----*/}
 								<Redirect from="/" to="/dashboard" push />
 							</Switch>
