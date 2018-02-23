@@ -10,6 +10,7 @@ import Login from './login/login';
 
 import Dashboard from './dashboard/dashboard';
 import Clients from './clients/clients';
+import Technicians from './technicians/technicians';
 import Reports from './reports/reports';
 
 class App extends Component {
@@ -26,7 +27,7 @@ class App extends Component {
 		return (
 			<BrowserRouter>
 				<div className="container is-fluid">
-					<Nav />
+					<Nav user={this.props.me} />
 					<div className="columns is-marginless">
 						<Sidebar user={this.props.me} logout={this.props.logout} />
 						<div className="column vd-content">
@@ -34,6 +35,7 @@ class App extends Component {
 								{/*----- Dashboard Route -----*/}
 								<Route path="/dashboard" component={Dashboard} />
 								<Route path="/clients" component={Clients} />
+								<Route path="/technicians" component={Technicians} />
 								<Route path="/reports/:id" component={Reports} />
 								<Route path="/reports" component={Reports} />
 								{/*----- Default Route -----*/}

@@ -5,29 +5,60 @@ import emptyProfile from '../../img/empty-profile.jpg';
 
 export default props => {
 	function renderUserInfo(user) {
-		if (!user) return <div className="loader" />;
-
 		return (
 			<nav className="level">
 				<div className="level-left">
 					<figure className="level-item image is-96x96 vd-profile-picture">
-						<img role="presentation" src={props.user.img || emptyProfile} />
+						<img role="presentation" src={user.img || emptyProfile} />
 					</figure>
 				</div>
 				<div className="level-right">
 					<div className="level-item has-text-right">
 						<p>
-							Welcome, {props.user.name}
+							Welcome, {user.name}
 							<br />
-							<small>{props.user.phone || props.user.contact_phone}</small>
+							<small>{user.phone || user.contact_phone}</small>
 							<br />
-							<small>{props.user.email || props.user.contact_email}</small>
+							<small>{user.email || user.contact_email}</small>
 						</p>
 					</div>
 				</div>
 			</nav>
 		);
 	}
+
+	function renderUserLink(type) {
+		switch (type) {
+			case 'employee':
+				return (
+					<li>
+						<NavLink activeClassName="is-active" to="/clients">
+							<span className="icon is-medium">
+								<i className="fas fa-briefcase" />
+							</span>
+							<span>My Clients</span>
+						</NavLink>
+					</li>
+				);
+
+			case 'client':
+				return (
+					<li>
+						<NavLink activeClassName="is-active" to="/technicians">
+							<span className="icon is-medium">
+								<i className="fas fa-wrench" />
+							</span>
+							<span>Technicians</span>
+						</NavLink>
+					</li>
+				);
+
+			default:
+				return null;
+		}
+	}
+
+	if (!props.user) return null;
 
 	return (
 		<div className="column vd-sidebar-column is-hidden-mobile">
@@ -47,14 +78,7 @@ export default props => {
 										<span>Dashboard</span>
 									</NavLink>
 								</li>
-								<li>
-									<NavLink activeClassName="is-active" to="/clients">
-										<span className="icon is-medium">
-											<i className="fas fa-briefcase" />
-										</span>
-										<span>My Clients</span>
-									</NavLink>
-								</li>
+								{renderUserLink(props.user.type)}
 								<li>
 									<NavLink activeClassName="is-active" to="/reports">
 										<span className="icon is-medium">

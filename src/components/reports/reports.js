@@ -130,7 +130,7 @@ class Reports extends Component {
 function mapStateToProps(state) {
 	return {
 		me: state.users.me,
-		employee: state.users.employees,
+		employees: state.users.employees,
 		clients: state.users.clients,
 		reportsList: state.reports.list,
 	};
