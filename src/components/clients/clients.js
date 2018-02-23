@@ -20,7 +20,7 @@ const Clients = props => {
 					<div className="media-content">
 						<div className="content">
 							<p>
-								<Link to={`/client/${client.id}`}>{client.name}</Link>
+								<Link to={`/reports/${client.id}`}>{client.name}</Link>
 								<br />
 								<small>
 									<strong>Client ID: </strong>

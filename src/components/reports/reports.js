@@ -5,6 +5,23 @@ import moment from 'moment';
 import emptyProfile from '../../img/empty-profile.jpg';
 
 class Reports extends Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			user: parseInt(this.props.match.params.id, 10) || null,
+			search: '',
+		};
+	}
+
+	handleSelect(e) {
+		this.setState({ user: parseInt(e.target.value, 10) || null });
+	}
+
+	handleSearch(e) {
+		this.setState({ search: e.target.value.toLowerCase() });
+	}
+
 	renderReportImage(img) {
 		if (!img) return null;
 
@@ -19,8 +36,26 @@ class Reports extends Component {
 		);
 	}
 
+	renderOptions(users) {
+		if (!users || users.length === 0) return null;
+
+		return users.map(user => (
+			<option key={user.id} value={user.id}>
+				{user.name}
+			</option>
+		));
+	}
+
 	renderReports(reports) {
-		return reports.map(report => (
+		const fliteredReports = reports.filter(
+			report =>
+				(report.client.id === this.state.user ||
+					report.employee.id === this.state.user ||
+					!this.state.user) &&
+				report.description.toLowerCase().includes(this.state.search)
+		);
+
+		return fliteredReports.map(report => (
 			<div className="box" key={report.id}>
 				<nav className="level is-mobile">
 					<div className="level-left">
@@ -56,13 +91,47 @@ class Reports extends Component {
 		if (!this.props.reportsList || !this.props.me) return <div className="loader" />;
 		if (this.props.reportsList.length === 0) return <h3>No Reports</h3>;
 
-		return <div>{this.renderReports(this.props.reportsList)}</div>;
+		return (
+			<div>
+				<div className="field has-addons">
+					<p className="control has-icons-left has-icons-right vd-report-search">
+						<input
+							className="input"
+							type="text"
+							placeholder="Search Reports"
+							onChange={this.handleSearch.bind(this)}
+						/>
+						<span className="icon is-small is-left">
+							<i className="fas fa-search" />
+						</span>
+					</p>
+					<p className="control">
+						<span className="select">
+							<select
+								defaultValue={this.state.user}
+								onChange={this.handleSelect.bind(this)}
+							>
+								<option value={null}>All</option>
+								{this.renderOptions(
+									this.props.me.type === 'employee'
+										? this.props.clients
+										: this.props.employees
+								)}
+							</select>
+						</span>
+					</p>
+				</div>
+				{this.renderReports(this.props.reportsList)}
+			</div>
+		);
 	}
 }
 
 function mapStateToProps(state) {
 	return {
 		me: state.users.me,
+		employee: state.users.employees,
+		clients: state.users.clients,
 		reportsList: state.reports.list,
 	};
 }

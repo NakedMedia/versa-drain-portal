@@ -6,6 +6,15 @@ $red: #d3242e;
 $primary: $red;
 
 $navbar-tab-active-color: $primary;
+
+$input-border-color: $white;
+$input-color: $grey-dark;
+$input-placeholder-color: $grey-light;
+
+// Shadows
+$vd-box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+$input-shadow: $vd-box-shadow;
+
 // Sizes
 $gap: 150px;
 $navbar-height: 5rem;
@@ -13,5 +22,4 @@ $vd-sidebar-width: 22rem;
 $box-radius: 0;
 $radius-rounded: 290486px;
 
-// Shadows
-$vd-box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+$input-radius: 0;

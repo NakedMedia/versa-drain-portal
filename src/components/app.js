@@ -34,6 +34,7 @@ class App extends Component {
 								{/*----- Dashboard Route -----*/}
 								<Route path="/dashboard" component={Dashboard} />
 								<Route path="/clients" component={Clients} />
+								<Route path="/reports/:id" component={Reports} />
 								<Route path="/reports" component={Reports} />
 								{/*----- Default Route -----*/}
 								<Redirect from="/" to="/dashboard" push />

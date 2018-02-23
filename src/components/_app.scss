@@ -5,6 +5,31 @@ body,
 	background-color: $white-ter;
 }
 
+::placeholder {
+	color: $input-placeholder-color;
+	opacity: 1;
+}
+
+:-ms-input-placeholder {
+	color: $input-placeholder-color;
+}
+
+::-ms-input-placeholder {
+	color: $input-placeholder-color;
+}
+
+.input {
+	border-color: $input-border-color;
+	border-radius: $input-radius;
+	box-shadow: $input-shadow;
+	color: $input-color;
+}
+
+.select select {
+	box-shadow: $input-shadow;
+	border-color: $input-border-color;
+}
+
 .is-size-7 {
 	font-size: 0.75rem;
 }
@@ -23,6 +48,10 @@ body,
 
 .level-vertical {
 	flex-direction: column;
+}
+
+.vd-box-shadow {
+	box-shadow: $vd-box-shadow;
 }
 
 .vd-profile-picture {
