@@ -25,6 +25,14 @@ body,
 	color: $input-color;
 }
 
+.textarea {
+	border-color: $input-border-color;
+	border-radius: $input-radius;
+	box-shadow: $input-shadow;
+	color: $input-color;
+	resize: none;
+}
+
 .select select {
 	box-shadow: $input-shadow;
 	border-color: $input-border-color;

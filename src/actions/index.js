@@ -50,3 +50,10 @@ export function fetchAll(token) {
 			});
 	};
 }
+
+export function createReport(report) {
+	return {
+		type: types.CREATE_REPORT,
+		payload: axios.post(`${routes.root}/reports`, report),
+	};
+}
