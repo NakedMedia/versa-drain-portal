@@ -29,7 +29,7 @@ class Reports extends Component {
 			<figure className="media-right">
 				<a href={img}>
 					<span className="icon is-medium has-text-primary">
-						<i className="fa fa-image" />
+						<i className="fa fa-lg fa-image" />
 					</span>
 				</a>
 			</figure>
@@ -71,7 +71,7 @@ class Reports extends Component {
 					</div>
 					<div className="level-right">
 						<p className="level-item has-text-grey">{report.client.name}</p>
-						<figure className="level-item image is-48x48 vd-profile-picture">
+						<figure className="level-item image is-48x48 vd-profile-picture is-marginless">
 							<img src={report.client.img || emptyProfile} alt="User" />
 						</figure>
 					</div>

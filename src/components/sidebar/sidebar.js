@@ -8,7 +8,7 @@ export default props => {
 		return (
 			<nav className="level">
 				<div className="level-left">
-					<figure className="level-item image is-96x96 vd-profile-picture">
+					<figure className="level-item image is-96x96 vd-profile-picture is-marginless">
 						<img role="presentation" src={user.img || emptyProfile} />
 					</figure>
 				</div>

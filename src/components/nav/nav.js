@@ -21,7 +21,7 @@ export default props => {
 
 	return (
 		<nav className="navbar" role="navigation" aria-label="main navigation">
-			<div className="navbar-brand">
+			<div className="navbar-brand is-marginless">
 				<a className="navbar-item" href="https://bulma.io">
 					<img src={logo} alt="Logo" />
 				</a>
