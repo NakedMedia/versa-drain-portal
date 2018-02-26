@@ -100,7 +100,7 @@ export default props => {
 								</li>
 								<li>
 									<a
-										href=""
+										href="/"
 										onClick={() => {
 											props.logout();
 										}}
