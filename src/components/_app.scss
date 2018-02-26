@@ -40,6 +40,7 @@ body,
 .select select {
 	box-shadow: $input-shadow;
 	border-color: $input-border-color;
+	border-radius: $input-radius;
 }
 
 .is-size-7 {

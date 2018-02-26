@@ -12,6 +12,7 @@ class NewReport extends Component {
 		super(props);
 
 		this.state = {
+			media_id: null,
 			errors: {},
 		};
 	}
@@ -20,12 +21,24 @@ class NewReport extends Component {
 		this.props.history.go(-1);
 	}
 
+	handleFile(e) {
+		const file = e.target.files[0];
+		const formData = new FormData();
+		formData.append('file', file);
+		this.setState({ isUploading: true });
+
+		this.props.uploadImage(formData).then(action => {
+			this.setState({ isUploading: false, media_id: action.payload.data.media_id });
+		});
+	}
+
 	handleSubmit(e) {
 		e.preventDefault();
 
 		const description = this.refs.description.value;
 		const client_id = parseInt(this.refs.client.value, 10);
 		const employee_id = this.props.me.id;
+		const media_id = this.state.media_id;
 
 		if (!client_id || !description) {
 			return this.setState({
@@ -40,12 +53,9 @@ class NewReport extends Component {
 
 		this.setState({ isLoading: true });
 
-		this.props.createReport({ description, employee_id, client_id }).then(res => {
+		this.props.createReport({ description, employee_id, client_id, media_id }).then(res => {
 			if (res.payload.status === 200) this.setState({ finished: true });
-			else {
-				console.log(res);
-				this.setState({ isLoading: false });
-			}
+			else this.setState({ isLoading: false });
 		});
 	}
 
@@ -57,6 +67,28 @@ class NewReport extends Component {
 				{user.name}
 			</option>
 		));
+	}
+
+	renderFileName() {
+		if (this.state.isUploading) {
+			return (
+				<span className="file-name vd-file-name">
+					<div className="loader" />
+				</span>
+			);
+		}
+
+		if (this.state.media_id) {
+			return (
+				<span className="file-name vd-file-name">
+					<span className="icon has-text-primary">
+						<i className="fa fa-check" />
+					</span>
+				</span>
+			);
+		}
+
+		return null;
 	}
 
 	render() {
@@ -76,7 +108,7 @@ class NewReport extends Component {
 						/>
 					</div>
 				</div>
-				<div className="field">
+				<div className="field is-grouped">
 					<p className="control">
 						<span className={`select ${this.state.errors.client ? 'is-danger' : ''}`}>
 							<select ref="client">
@@ -85,6 +117,32 @@ class NewReport extends Component {
 							</select>
 						</span>
 					</p>
+					<div className="control">
+						<div className="file is-white vd-box-shadow">
+							<div htmlFor="file" className="file-label">
+								<input
+									className="file-input"
+									type="file"
+									ref="file"
+									onChange={this.handleFile.bind(this)}
+								/>
+								<span
+									className="file-cta"
+									onClick={() => {
+										this.refs.file.click();
+									}}
+								>
+									<span className="file-icon has-text-grey-dark">
+										<i className="fas fa-upload" />
+									</span>
+									<span className="file-label has-text-grey-dark">
+										Upload Image
+									</span>
+								</span>
+								{this.renderFileName()}
+							</div>
+						</div>
+					</div>
 				</div>
 				<div className="field is-grouped">
 					<div className="control">

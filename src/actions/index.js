@@ -57,3 +57,24 @@ export function createReport(report) {
 		payload: axios.post(`${routes.root}/reports`, report),
 	};
 }
+
+export function uploadImage(formData) {
+	return {
+		type: types.UPLOAD_IMAGE,
+		payload: axios.post(`${routes.root}/media`, formData),
+	};
+}
+
+export function changePassword(currentPassword, newPassword) {
+	return {
+		type: types.CHANGE_PASSWORD,
+		payload: axios.post(`${routes.root}/password`, { currentPassword, newPassword }),
+	};
+}
+
+export function changeProfilePicture(mediaId) {
+	return {
+		type: types.CHANGE_PROFILE_PICTURE,
+		payload: axios.post(`${routes.root}/profile-picture`, { media_id: mediaId }),
+	};
+}

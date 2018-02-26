@@ -1,4 +1,4 @@
-import { FETCH_ME, FETCH_REPORTS } from '../actions/types';
+import { FETCH_ME, FETCH_REPORTS, CHANGE_PROFILE_PICTURE } from '../actions/types';
 
 export default (state = {}, action) => {
 	const clients = [];
@@ -22,6 +22,10 @@ export default (state = {}, action) => {
 
 		case FETCH_ME:
 			return { ...state, me: action.payload };
+
+		case CHANGE_PROFILE_PICTURE:
+			return { ...state, me: action.payload.data };
+
 		default:
 			return state;
 	}

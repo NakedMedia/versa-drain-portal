@@ -13,6 +13,7 @@ import Clients from './clients/clients';
 import Technicians from './technicians/technicians';
 import Reports from './reports/reports';
 import NewReport from './new-report/new-report';
+import Settings from './settings/settings';
 
 class App extends Component {
 	constructor(props) {
@@ -40,6 +41,8 @@ class App extends Component {
 								<Route path="/reports/:id" component={Reports} />
 								<Route path="/reports" component={Reports} />
 								<Route path="/new-report" component={NewReport} />
+								<Route path="/settings" component={Settings} />
+
 								{/*----- Default Route -----*/}
 								<Redirect from="/" to="/dashboard" push />
 							</Switch>
