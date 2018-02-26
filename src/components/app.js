@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
+import routes from '../../config/routes';
+
 import Nav from './nav/nav';
 import Sidebar from './sidebar/sidebar';
 
@@ -35,16 +37,26 @@ class App extends Component {
 						<div className="column vd-content">
 							<Switch>
 								{/*----- Dashboard Route -----*/}
-								<Route path="/dashboard" component={Dashboard} />
-								<Route path="/clients" component={Clients} />
-								<Route path="/technicians" component={Technicians} />
-								<Route path="/reports/:id" component={Reports} />
-								<Route path="/reports" component={Reports} />
-								<Route path="/new-report" component={NewReport} />
-								<Route path="/settings" component={Settings} />
+								<Route path={`${routes.webRoot}/dashboard`} component={Dashboard} />
+								<Route path={`${routes.webRoot}/clients`} component={Clients} />
+								<Route
+									path={`${routes.webRoot}/technicians`}
+									component={Technicians}
+								/>
+								<Route path={`${routes.webRoot}/reports/:id`} component={Reports} />
+								<Route path={`${routes.webRoot}/reports`} component={Reports} />
+								<Route
+									path={`${routes.webRoot}/new-report`}
+									component={NewReport}
+								/>
+								<Route path={`${routes.webRoot}/settings`} component={Settings} />
 
 								{/*----- Default Route -----*/}
-								<Redirect from="/" to="/dashboard" push />
+								<Redirect
+									from={`${routes.webRoot}/`}
+									to={`${routes.webRoot}/dashboard`}
+									push
+								/>
 							</Switch>
 						</div>
 					</div>

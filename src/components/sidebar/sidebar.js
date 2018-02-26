@@ -1,6 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
+import routes from '../../../config/routes';
+
 import emptyProfile from '../../img/empty-profile.jpg';
 
 export default props => {
@@ -32,7 +34,7 @@ export default props => {
 			case 'employee':
 				return (
 					<li>
-						<NavLink activeClassName="is-active" to="/clients">
+						<NavLink activeClassName="is-active" to={`${routes.webRoot}/clients`}>
 							<span className="icon is-medium">
 								<i className="fas fa-briefcase" />
 							</span>
@@ -44,7 +46,7 @@ export default props => {
 			case 'client':
 				return (
 					<li>
-						<NavLink activeClassName="is-active" to="/technicians">
+						<NavLink activeClassName="is-active" to={`${routes.webRoot}/technicians`}>
 							<span className="icon is-medium">
 								<i className="fas fa-wrench" />
 							</span>
@@ -71,7 +73,10 @@ export default props => {
 							<p className="menu-label">Menu</p>
 							<ul className="menu-list">
 								<li>
-									<NavLink activeClassName="is-active" to="/dashboard">
+									<NavLink
+										activeClassName="is-active"
+										to={`${routes.webRoot}/dashboard`}
+									>
 										<span className="icon is-medium">
 											<i className="fas fa-chart-pie" />
 										</span>
@@ -80,7 +85,10 @@ export default props => {
 								</li>
 								{renderUserLink(props.user.type)}
 								<li>
-									<NavLink activeClassName="is-active" to="/reports">
+									<NavLink
+										activeClassName="is-active"
+										to={`${routes.webRoot}/reports`}
+									>
 										<span className="icon is-medium">
 											<i className="fas fa-clipboard" />
 										</span>
@@ -91,7 +99,10 @@ export default props => {
 							<p className="menu-label">Account</p>
 							<ul className="menu-list">
 								<li>
-									<NavLink activeClassName="is-active" to="/settings">
+									<NavLink
+										activeClassName="is-active"
+										to={`${routes.webRoot}/settings`}
+									>
 										<span className="icon is-medium">
 											<i className="fas fa-sliders-h" />
 										</span>
@@ -100,7 +111,7 @@ export default props => {
 								</li>
 								<li>
 									<a
-										href="/"
+										href={`${routes.webRoot}`}
 										onClick={() => {
 											props.logout();
 										}}

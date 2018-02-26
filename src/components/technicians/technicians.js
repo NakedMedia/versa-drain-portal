@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import routes from '../../../config/routes';
+
 import emptyProfile from '../../img/empty-profile.jpg';
 
 const Technicians = props => {
@@ -20,7 +22,9 @@ const Technicians = props => {
 					<div className="media-content">
 						<div className="content">
 							<p>
-								<Link to={`/reports/${employee.id}`}>{employee.name}</Link>
+								<Link to={`${routes.webRoot}/reports/${employee.id}`}>
+									{employee.name}
+								</Link>
 								<br />
 								<small>
 									<strong>Employee ID: </strong>

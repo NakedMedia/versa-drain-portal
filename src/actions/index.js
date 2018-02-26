@@ -8,7 +8,7 @@ export function login(id, password) {
 		dispatch({ type: types.LOGIN_ERROR, payload: null });
 
 		axios
-			.post(`${routes.root}/login`, { id, password })
+			.post(`${routes.apiRoot}/login`, { id, password })
 			.then(res => {
 				if (res.data.error) {
 					return dispatch({ type: types.LOGIN_ERROR, payload: res.data.error });
@@ -38,7 +38,7 @@ export function fetchAll(token) {
 	return dispatch => {
 		dispatch({ type: types.AUTH_LOGIN });
 		axios
-			.all([axios.get(`${routes.root}/reports`), axios.get(`${routes.root}/me`)])
+			.all([axios.get(`${routes.apiRoot}/reports`), axios.get(`${routes.apiRoot}/me`)])
 			.then(
 				axios.spread((reports, me) => {
 					dispatch({ type: types.FETCH_REPORTS, payload: reports.data });
@@ -46,7 +46,9 @@ export function fetchAll(token) {
 				})
 			)
 			.catch(err => {
-				if (err.response.status === 403) dispatch(logout());
+				if (err.response && err.response.status === 403) return dispatch(logout());
+
+				console.log(err);
 			});
 	};
 }
@@ -54,27 +56,27 @@ export function fetchAll(token) {
 export function createReport(report) {
 	return {
 		type: types.CREATE_REPORT,
-		payload: axios.post(`${routes.root}/reports`, report),
+		payload: axios.post(`${routes.apiRoot}/reports`, report),
 	};
 }
 
 export function uploadImage(formData) {
 	return {
 		type: types.UPLOAD_IMAGE,
-		payload: axios.post(`${routes.root}/media`, formData),
+		payload: axios.post(`${routes.apiRoot}/media`, formData),
 	};
 }
 
 export function changePassword(currentPassword, newPassword) {
 	return {
 		type: types.CHANGE_PASSWORD,
-		payload: axios.post(`${routes.root}/password`, { currentPassword, newPassword }),
+		payload: axios.post(`${routes.apiRoot}/password`, { currentPassword, newPassword }),
 	};
 }
 
 export function changeProfilePicture(mediaId) {
 	return {
 		type: types.CHANGE_PROFILE_PICTURE,
-		payload: axios.post(`${routes.root}/profile-picture`, { media_id: mediaId }),
+		payload: axios.post(`${routes.apiRoot}/profile-picture`, { media_id: mediaId }),
 	};
 }

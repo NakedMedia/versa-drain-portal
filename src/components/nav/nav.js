@@ -1,6 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
+import routes from '../../../config/routes';
+
 import logo from '../../img/logo.png';
 
 export default props => {
@@ -8,7 +10,11 @@ export default props => {
 		if (type !== 'employee') return null;
 
 		return (
-			<NavLink activeClassName="is-active" className="navbar-item is-tab" to="/new-report">
+			<NavLink
+				activeClassName="is-active"
+				className="navbar-item is-tab"
+				to={`${routes.webRoot}/new-report`}
+			>
 				<span className="icon is-medium">
 					<i className="fas fa-clipboard" />
 				</span>
