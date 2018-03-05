@@ -29,6 +29,13 @@ const Dashboard = props => {
 			return renderColumn('briefcase', props.clients.length, 'Clients');
 		} else if (user.type === 'client' && props.clients) {
 			return renderColumn('wrench', props.employees.length, 'Technicians');
+		} else if (user.type === 'admin' && props.clients && props.employees) {
+			return (
+				<div>
+					{renderColumn('briefcase', props.clients.length, 'Clients')}
+					{renderColumn('wrench', props.employees.length, 'Employees')}
+				</div>
+			);
 		}
 
 		return null;

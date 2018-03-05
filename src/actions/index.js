@@ -41,6 +41,23 @@ export function fetchAll(token) {
 			.all([axios.get(`${routes.apiRoot}/reports`), axios.get(`${routes.apiRoot}/me`)])
 			.then(
 				axios.spread((reports, me) => {
+					if (me.data.type === 'admin') {
+						axios
+							.all([
+								axios.get(`${routes.apiRoot}/clients`),
+								axios.get(`${routes.apiRoot}/employees`),
+							])
+							.then(
+								axios.spread((clients, employees) => {
+									dispatch({ type: types.FETCH_CLIENTS, payload: clients.data });
+									dispatch({
+										type: types.FETCH_EMPLOYEES,
+										payload: employees.data,
+									});
+								})
+							);
+					}
+
 					dispatch({ type: types.FETCH_REPORTS, payload: reports.data });
 					dispatch({ type: types.FETCH_ME, payload: me.data });
 				})

@@ -8,8 +8,8 @@ import emptyProfile from '../../img/empty-profile.jpg';
 
 const Clients = props => {
 	function renderClients(clients) {
-		if (!props.reportsList) return <div className="loader" />;
-		if (props.reportsList.length === 0) return <h3>No Clients</h3>;
+		if (!props.clientsList) return <div className="loader" />;
+		if (props.clientsList.length === 0) return <h3>No Clients</h3>;
 
 		return clients.map(client => (
 			<div className="box" key={client.id}>

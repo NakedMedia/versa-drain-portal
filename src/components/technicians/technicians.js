@@ -8,8 +8,8 @@ import emptyProfile from '../../img/empty-profile.jpg';
 
 const Technicians = props => {
 	function renderTechnicians(employees) {
-		if (!props.reportsList) return <div className="loader" />;
-		if (props.reportsList.length === 0) return <h3>No Technicians</h3>;
+		if (!props.employeesList || !props.me) return <div className="loader" />;
+		if (props.employeesList.length === 0) return <h3>No Technicians</h3>;
 
 		return employees.map(employee => (
 			<div className="box" key={employee.id}>
@@ -45,6 +45,13 @@ const Technicians = props => {
 									<strong>Email: </strong>
 									{employee.email || 'N/A'}
 								</small>
+								<br />
+								{props.me.type !== 'client' ? (
+									<small className="is-capitalized">
+										<strong>Type: </strong>
+										{employee.type}
+									</small>
+								) : null}
 							</p>
 						</div>
 					</div>
@@ -58,7 +65,7 @@ const Technicians = props => {
 
 function mapStateToProps(state) {
 	return {
-		reportsList: state.reports.list,
+		me: state.users.me,
 		employeesList: state.users.employees,
 	};
 }
