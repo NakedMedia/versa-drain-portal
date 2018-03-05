@@ -31,6 +31,28 @@ export default props => {
 
 	function renderUserLink(type) {
 		switch (type) {
+			case 'admin':
+				return (
+					<div>
+						<li>
+							<NavLink activeClassName="is-active" to={`${routes.webRoot}/clients`}>
+								<span className="icon is-medium">
+									<i className="fas fa-briefcase" />
+								</span>
+								<span>Clients</span>
+							</NavLink>
+						</li>
+						<li>
+							<NavLink activeClassName="is-active" to={`${routes.webRoot}/technicians`}>
+								<span className="icon is-medium">
+									<i className="fas fa-wrench" />
+								</span>
+								<span>Employees</span>
+							</NavLink>
+						</li>
+					</div>
+				);
+
 			case 'employee':
 				return (
 					<li>
