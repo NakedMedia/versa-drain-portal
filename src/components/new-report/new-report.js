@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import withRouter from 'react-router-dom/es/withRouter';
 
+import routes from '../../../config/routes';
+
 import * as actions from '../../actions';
 
 class NewReport extends Component {
@@ -92,7 +94,7 @@ class NewReport extends Component {
 	}
 
 	render() {
-		if (this.state.finished) return <Redirect to="/reports" />;
+		if (this.state.finished) return <Redirect to={`${routes.webRoot}/reports`} />;
 
 		return (
 			<form className="form">
