@@ -43,7 +43,10 @@ export default props => {
 							</NavLink>
 						</li>
 						<li>
-							<NavLink activeClassName="is-active" to={`${routes.webRoot}/technicians`}>
+							<NavLink
+								activeClassName="is-active"
+								to={`${routes.webRoot}/technicians`}
+							>
 								<span className="icon is-medium">
 									<i className="fas fa-wrench" />
 								</span>
@@ -133,7 +136,7 @@ export default props => {
 								</li>
 								<li>
 									<a
-										href={`${routes.webRoot}`}
+										href={`${routes.webRoot}/dashboard`}
 										onClick={() => {
 											props.logout();
 										}}

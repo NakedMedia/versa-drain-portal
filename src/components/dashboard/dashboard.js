@@ -22,32 +22,18 @@ const Dashboard = props => {
 		);
 	}
 
-	function renderInfo(user) {
-		if (!user) return null;
-
-		if (user.type === 'employee' && props.clients) {
-			return renderColumn('briefcase', props.clients.length, 'Clients');
-		} else if (user.type === 'client' && props.clients) {
-			return renderColumn('wrench', props.employees.length, 'Technicians');
-		} else if (user.type === 'admin' && props.clients && props.employees) {
-			return (
-				<div>
-					{renderColumn('briefcase', props.clients.length, 'Clients')}
-					{renderColumn('wrench', props.employees.length, 'Employees')}
-				</div>
-			);
-		}
-
-		return null;
-	}
-
 	return (
 		<div>
 			<div className="columns is-marginless">
 				{props.reportsList
 					? renderColumn('clipboard', props.reportsList.length, 'Reports')
 					: null}
-				{renderInfo(props.me)}
+				{props.me && props.clients && props.me.type !== 'client'
+					? renderColumn('briefcase', props.clients.length, 'Clients')
+					: null}
+				{props.me && props.employees && props.me.type !== 'employee'
+					? renderColumn('wrench', props.employees.length, 'Technicians')
+					: null}
 			</div>
 		</div>
 	);

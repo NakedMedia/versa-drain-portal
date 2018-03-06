@@ -27,6 +27,7 @@ export function logout() {
 
 	return {
 		type: types.AUTH_LOGOUT,
+		payload: axios.get(`${routes.apiRoot}/logout`),
 	};
 }
 
