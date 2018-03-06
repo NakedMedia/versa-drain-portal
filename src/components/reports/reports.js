@@ -8,14 +8,25 @@ class Reports extends Component {
 	constructor(props) {
 		super(props);
 
+		const userId = parseInt(this.props.match.params.id, 10);
+
 		this.state = {
-			user: parseInt(this.props.match.params.id, 10) || null,
+			employee:
+				props.employees && props.employees.find(employee => employee.id === userId)
+					? userId
+					: null,
+			client:
+				props.clients && props.clients.find(client => client.id === userId) ? userId : null,
 			search: '',
 		};
 	}
 
-	handleSelect(e) {
-		this.setState({ user: parseInt(e.target.value, 10) || null });
+	handleEmployeeSelect(e) {
+		this.setState({ employee: parseInt(e.target.value, 10) || null });
+	}
+
+	handleClientSelect(e) {
+		this.setState({ client: parseInt(e.target.value, 10) || null });
 	}
 
 	handleSearch(e) {
@@ -36,6 +47,42 @@ class Reports extends Component {
 		);
 	}
 
+	renderEmployeeSelect(type) {
+		if (type === 'employee') return null;
+
+		return (
+			<p className="control">
+				<span className="select">
+					<select
+						defaultValue={this.state.employee}
+						onChange={this.handleEmployeeSelect.bind(this)}
+					>
+						<option value={null}>All</option>
+						{this.renderOptions(this.props.employees)}
+					</select>
+				</span>
+			</p>
+		);
+	}
+
+	renderClientSelect(type) {
+		if (type === 'client') return null;
+
+		return (
+			<p className="control">
+				<span className="select">
+					<select
+						defaultValue={this.state.client}
+						onChange={this.handleClientSelect.bind(this)}
+					>
+						<option value={null}>All</option>
+						{this.renderOptions(this.props.clients)}
+					</select>
+				</span>
+			</p>
+		);
+	}
+
 	renderOptions(users) {
 		if (!users || users.length === 0) return null;
 
@@ -49,9 +96,8 @@ class Reports extends Component {
 	renderReports(reports) {
 		const fliteredReports = reports.filter(
 			report =>
-				(report.client.id === this.state.user ||
-					report.employee.id === this.state.user ||
-					!this.state.user) &&
+				(report.client.id === this.state.client || !this.state.client) &&
+				(report.employee.id === this.state.employee || !this.state.employee) &&
 				report.description.toLowerCase().includes(this.state.search)
 		);
 
@@ -105,21 +151,8 @@ class Reports extends Component {
 							<i className="fas fa-search" />
 						</span>
 					</p>
-					<p className="control">
-						<span className="select">
-							<select
-								defaultValue={this.state.user}
-								onChange={this.handleSelect.bind(this)}
-							>
-								<option value={null}>All</option>
-								{this.renderOptions(
-									this.props.me.type === 'employee'
-										? this.props.clients
-										: this.props.employees
-								)}
-							</select>
-						</span>
-					</p>
+					{this.renderEmployeeSelect(this.props.me.type)}
+					{this.renderClientSelect(this.props.me.type)}
 				</div>
 				{this.renderReports(this.props.reportsList)}
 			</div>
