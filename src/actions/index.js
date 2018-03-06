@@ -77,6 +77,20 @@ export function createReport(report) {
 	};
 }
 
+export function createClient(client) {
+	return {
+		type: types.CREATE_CLIENT,
+		payload: axios.post(`${routes.apiRoot}/clients`, client),
+	};
+}
+
+export function createEmployee(employee) {
+	return {
+		type: types.CREATE_EMPLOYEE,
+		payload: axios.post(`${routes.apiRoot}/employees`, employee),
+	};
+}
+
 export function uploadImage(formData) {
 	return {
 		type: types.UPLOAD_IMAGE,

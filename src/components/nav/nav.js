@@ -7,7 +7,7 @@ import logo from '../../img/logo.png';
 
 export default props => {
 	function renderNewReport(type) {
-		if (type !== 'employee') return null;
+		if (type === 'client') return null;
 
 		return (
 			<NavLink
@@ -23,6 +23,40 @@ export default props => {
 		);
 	}
 
+	function renderNewClient(type) {
+		if (type !== 'admin') return null;
+
+		return (
+			<NavLink
+				activeClassName="is-active"
+				className="navbar-item is-tab"
+				to={`${routes.webRoot}/clients/new`}
+			>
+				<span className="icon is-medium">
+					<i className="fas fa-briefcase" />
+				</span>
+				<span>New Client</span>
+			</NavLink>
+		);
+	}
+
+	function renderNewEmployee(type) {
+		if (type !== 'admin') return null;
+
+		return (
+			<NavLink
+				activeClassName="is-active"
+				className="navbar-item is-tab"
+				to={`${routes.webRoot}/technicians/new`}
+			>
+				<span className="icon is-medium">
+					<i className="fas fa-wrench" />
+				</span>
+				<span>New Employee</span>
+			</NavLink>
+		);
+	}
+
 	if (!props.user) return null;
 
 	return (
@@ -32,7 +66,11 @@ export default props => {
 					<img src={logo} alt="Logo" />
 				</a>
 			</div>
-			<div className="navbar-end">{renderNewReport(props.user.type)}</div>
+			<div className="navbar-end">
+				{renderNewClient(props.user.type)}
+				{renderNewEmployee(props.user.type)}
+				{renderNewReport(props.user.type)}
+			</div>
 		</nav>
 	);
 };

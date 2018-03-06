@@ -11,8 +11,13 @@ import Sidebar from './sidebar/sidebar';
 import Login from './login/login';
 
 import Dashboard from './dashboard/dashboard';
+
+import AddEditClient from './clients/add-edit-client';
 import Clients from './clients/clients';
+
+import AddEditTechnician from './technicians/add-edit-technician';
 import Technicians from './technicians/technicians';
+
 import Reports from './reports/reports';
 import NewReport from './new-report/new-report';
 import Settings from './settings/settings';
@@ -38,11 +43,22 @@ class App extends Component {
 							<Switch>
 								{/*----- Dashboard Route -----*/}
 								<Route path={`${routes.webRoot}/dashboard`} component={Dashboard} />
+
+								<Route
+									path={`${routes.webRoot}/clients/new`}
+									component={AddEditClient}
+								/>
 								<Route path={`${routes.webRoot}/clients`} component={Clients} />
+
+								<Route
+									path={`${routes.webRoot}/technicians/new`}
+									component={AddEditTechnician}
+								/>
 								<Route
 									path={`${routes.webRoot}/technicians`}
 									component={Technicians}
 								/>
+
 								<Route path={`${routes.webRoot}/reports/:id`} component={Reports} />
 								<Route path={`${routes.webRoot}/reports`} component={Reports} />
 								<Route

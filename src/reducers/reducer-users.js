@@ -4,6 +4,8 @@ import {
 	CHANGE_PROFILE_PICTURE,
 	FETCH_CLIENTS,
 	FETCH_EMPLOYEES,
+	CREATE_CLIENT,
+	CREATE_EMPLOYEE,
 } from '../actions/types';
 
 export default (state = {}, action) => {
@@ -30,8 +32,14 @@ export default (state = {}, action) => {
 		case FETCH_CLIENTS:
 			return { ...state, clients: action.payload };
 
+		case CREATE_CLIENT:
+			return { ...state, clients: [action.payload.data, ...state.clients] };
+
 		case FETCH_EMPLOYEES:
 			return { ...state, employees: action.payload };
+
+		case CREATE_EMPLOYEE:
+			return { ...state, employees: [action.payload.data, ...state.employees] };
 
 		case CHANGE_PROFILE_PICTURE:
 			return { ...state, me: action.payload.data };
