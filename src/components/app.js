@@ -19,7 +19,7 @@ import AddEditTechnician from './technicians/add-edit-technician';
 import Technicians from './technicians/technicians';
 
 import Reports from './reports/reports';
-import NewReport from './new-report/new-report';
+import AddEditReport from './reports/add-edit-report';
 import Settings from './settings/settings';
 
 class App extends Component {
@@ -59,12 +59,12 @@ class App extends Component {
 									component={Technicians}
 								/>
 
+								<Route
+									path={`${routes.webRoot}/reports/new`}
+									component={AddEditReport}
+								/>
 								<Route path={`${routes.webRoot}/reports/:id`} component={Reports} />
 								<Route path={`${routes.webRoot}/reports`} component={Reports} />
-								<Route
-									path={`${routes.webRoot}/new-report`}
-									component={NewReport}
-								/>
 								<Route path={`${routes.webRoot}/settings`} component={Settings} />
 
 								{/*----- Default Route -----*/}

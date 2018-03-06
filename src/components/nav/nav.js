@@ -13,7 +13,7 @@ export default props => {
 			<NavLink
 				activeClassName="is-active"
 				className="navbar-item is-tab"
-				to={`${routes.webRoot}/new-report`}
+				to={`${routes.webRoot}/reports/new`}
 			>
 				<span className="icon is-medium">
 					<i className="fas fa-clipboard" />

@@ -9,7 +9,7 @@ import routes from '../../../config/routes';
 
 import * as actions from '../../actions';
 
-class NewReport extends Component {
+class AddEditReport extends Component {
 	constructor(props) {
 		super(props);
 
@@ -39,14 +39,18 @@ class NewReport extends Component {
 
 		const description = this.refs.description.value;
 		const client_id = parseInt(this.refs.client.value, 10);
-		const employee_id = this.props.me.id;
+		const employee_id =
+			this.props.me.type === 'admin'
+				? parseInt(this.refs.employee.value, 10)
+				: this.props.me.id;
 		const media_id = this.state.media_id;
 
-		if (!client_id || !description) {
+		if (!client_id || !description || !employee_id) {
 			return this.setState({
 				errors: {
 					...this.state.errors,
 					client: !client_id,
+					employee: !employee_id,
 					description: !description,
 					message: !client_id || !description ? 'The fields in red are required' : '',
 				},
@@ -69,6 +73,21 @@ class NewReport extends Component {
 				{user.name}
 			</option>
 		));
+	}
+
+	renderEmployeeSelect(type) {
+		if (type !== 'admin') return null;
+
+		return (
+			<p className="control">
+				<span className={`select ${this.state.errors.employee ? 'is-danger' : ''}`}>
+					<select ref="employee">
+						<option value={null}>Select Employee</option>
+						{this.renderOptions(this.props.employees)}
+					</select>
+				</span>
+			</p>
+		);
 	}
 
 	renderFileName() {
@@ -94,6 +113,7 @@ class NewReport extends Component {
 	}
 
 	render() {
+		if (!this.props.me) return <div className="loader" />;
 		if (this.state.finished) return <Redirect to={`${routes.webRoot}/reports`} />;
 
 		return (
@@ -111,6 +131,7 @@ class NewReport extends Component {
 					</div>
 				</div>
 				<div className="field is-grouped">
+					{this.renderEmployeeSelect(this.props.me.type)}
 					<p className="control">
 						<span className={`select ${this.state.errors.client ? 'is-danger' : ''}`}>
 							<select ref="client">
@@ -173,8 +194,9 @@ class NewReport extends Component {
 function mapStateToProps(state) {
 	return {
 		me: state.users.me,
+		employees: state.users.employees,
 		clients: state.users.clients,
 	};
 }
 
-export default withRouter(connect(mapStateToProps, actions)(NewReport));
+export default withRouter(connect(mapStateToProps, actions)(AddEditReport));
