@@ -7,8 +7,28 @@ import routes from '../../../config/routes';
 import emptyProfile from '../../img/empty-profile.jpg';
 
 const Clients = props => {
+	function renderAdminOptions(type, clientId) {
+		if (type !== 'admin') return null;
+
+		return (
+			<div className="media-right">
+				<span className="icon has-text-primary is-large">
+					<Link to={`${routes.webRoot}/clients/${clientId}/edit`}>
+						<i className="fas fa-edit" />
+					</Link>
+				</span>
+
+				<span className="icon has-text-primary is-large">
+					<a>
+						<i className="fas fa-trash" />
+					</a>
+				</span>
+			</div>
+		);
+	}
+
 	function renderClients(clients) {
-		if (!props.clientsList) return <div className="loader" />;
+		if (!props.clientsList || !props.me) return <div className="loader" />;
 		if (props.clientsList.length === 0) return <h3>No Clients</h3>;
 
 		return clients.map(client => (
@@ -59,6 +79,7 @@ const Clients = props => {
 							</p>
 						</div>
 					</div>
+					{renderAdminOptions(props.me.type, client.id)}
 				</article>
 			</div>
 		));
@@ -69,6 +90,7 @@ const Clients = props => {
 
 function mapStateToProps(state) {
 	return {
+		me: state.users.me,
 		reportsList: state.reports.list,
 		clientsList: state.users.clients,
 	};

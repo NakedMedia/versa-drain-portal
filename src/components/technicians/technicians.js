@@ -7,6 +7,26 @@ import routes from '../../../config/routes';
 import emptyProfile from '../../img/empty-profile.jpg';
 
 const Technicians = props => {
+	function renderAdminOptions(type, employeeId) {
+		if (type !== 'admin') return null;
+
+		return (
+			<div className="media-right">
+				<span className="icon has-text-primary is-large">
+					<Link to={`${routes.webRoot}/technicians/${employeeId}/edit`}>
+						<i className="fas fa-edit" />
+					</Link>
+				</span>
+
+				<span className="icon has-text-primary is-large">
+					<a>
+						<i className="fas fa-trash" />
+					</a>
+				</span>
+			</div>
+		);
+	}
+
 	function renderTechnicians(employees) {
 		if (!props.employeesList || !props.me) return <div className="loader" />;
 		if (props.employeesList.length === 0) return <h3>No Technicians</h3>;
@@ -55,6 +75,7 @@ const Technicians = props => {
 							</p>
 						</div>
 					</div>
+					{renderAdminOptions(props.me.type, employee.id)}
 				</article>
 			</div>
 		));

@@ -44,21 +44,32 @@ class App extends Component {
 								{/*----- Dashboard Route -----*/}
 								<Route path={`${routes.webRoot}/dashboard`} component={Dashboard} />
 
+								{/*----- Clients Routes -----*/}
 								<Route
 									path={`${routes.webRoot}/clients/new`}
 									component={AddEditClient}
 								/>
+								<Route
+									path={`${routes.webRoot}/clients/:id/edit`}
+									component={Settings}
+								/>
 								<Route path={`${routes.webRoot}/clients`} component={Clients} />
 
+								{/*----- Technicians Routes -----*/}
 								<Route
 									path={`${routes.webRoot}/technicians/new`}
 									component={AddEditTechnician}
+								/>
+								<Route
+									path={`${routes.webRoot}/technicians/:id/edit`}
+									component={Settings}
 								/>
 								<Route
 									path={`${routes.webRoot}/technicians`}
 									component={Technicians}
 								/>
 
+								{/*----- Reports Routes -----*/}
 								<Route
 									path={`${routes.webRoot}/reports/new`}
 									component={AddEditReport}

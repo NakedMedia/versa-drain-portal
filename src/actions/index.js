@@ -81,7 +81,7 @@ export function createReport(report) {
 export function createClient(client) {
 	return {
 		type: types.CREATE_CLIENT,
-		payload: axios.post(`${routes.apiRoot}/clients`, client),
+		payload: axios.patch(`${routes.apiRoot}/clients`, client),
 	};
 }
 
@@ -90,6 +90,24 @@ export function createEmployee(employee) {
 		type: types.CREATE_EMPLOYEE,
 		payload: axios.post(`${routes.apiRoot}/employees`, employee),
 	};
+}
+
+export function updateUser(user) {
+	switch (user.type) {
+		case 'client':
+			return {
+				type: types.UPDATE_CLIENT,
+				payload: axios.patch(`${routes.apiRoot}/clients/${user.id}`, user),
+			};
+
+		case 'admin':
+		case 'employee':
+		default:
+			return {
+				type: types.UPDATE_EMPLOYEE,
+				payload: axios.patch(`${routes.apiRoot}/employees/${user.id}`, user),
+			};
+	}
 }
 
 export function uploadImage(formData) {
