@@ -8,15 +8,17 @@ class ProfilePicture extends Component {
 			profileMessage: null,
 			isUploading: false,
 			isProfileLoading: false,
-			media_id: null,
+			media_id: this.props.user.media_id,
 		};
 	}
 
 	handleProfilePicture(e) {
 		e.preventDefault();
 
+		const mediaId = this.state.media_id;
+
 		this.setState({ isProfileLoading: true });
-		this.props.changeProfilePicture(this.state.media_id).then(action => {
+		this.props.updateUser({ ...this.props.user, media_id: mediaId }).then(action => {
 			if (action.payload.data.error) {
 				return this.setState({
 					isProfileLoading: false,
@@ -24,12 +26,10 @@ class ProfilePicture extends Component {
 				});
 			}
 
-			if (action.payload.data.id) {
-				return this.setState({
-					isProfileLoading: false,
-					profileMessage: 'Profile picture updated successfully',
-				});
-			}
+			this.setState({
+				isProfileLoading: false,
+				profileMessage: 'Profile picture updated successfully',
+			});
 		});
 	}
 

@@ -1,21 +1,27 @@
 /* eslint camelcase:0 */
 
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import withRouter from 'react-router-dom/es/withRouter';
-
-import routes from '../../../config/routes';
-
-import * as actions from '../../actions';
 
 class EmployeeInfo extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
+			employee: this.props.employee,
 			errors: {},
 		};
+	}
+
+	componentWillReceiveProps(newProps) {
+		this.setState({ employee: newProps.employee });
+	}
+
+	handleInputChange(ref, e) {
+		const employee = { ...this.state.employee };
+
+		employee[ref] = e.target.value;
+
+		this.setState({ employee });
 	}
 
 	handleSubmit(e) {
@@ -23,11 +29,11 @@ class EmployeeInfo extends Component {
 
 		this.setState({ errors: { message: null } });
 
-		const id = this.props.employee.id;
-		const name = this.refs.name.value;
-		const phone = this.refs.phone.value;
-		const email = this.refs.email.value;
-		const type = this.refs.type.value;
+		const id = this.state.employee.id;
+		const name = this.state.employee.name;
+		const phone = this.state.employee.phone;
+		const email = this.state.employee.email;
+		const type = this.state.employee.type;
 
 		if (!name) {
 			return this.setState({
@@ -43,7 +49,10 @@ class EmployeeInfo extends Component {
 
 		this.props.updateUser({ id, name, email, phone, type }).then(res => {
 			if (res.payload.status === 200) {
-				this.setState({ errors: { message: 'Employee updated successfully' } });
+				this.setState({
+					errors: { message: 'Employee updated successfully' },
+					isLoading: false,
+				});
 			} else this.setState({ isLoading: false });
 		});
 	}
@@ -55,7 +64,11 @@ class EmployeeInfo extends Component {
 			<div className="field">
 				<div className="control">
 					<span className="select">
-						<select ref="type" defaultValue={this.props.employee.type}>
+						<select
+							ref="type"
+							value={this.state.employee.type}
+							onChange={this.handleInputChange.bind(this, 'type')}
+						>
 							<option value="employee">Employee</option>
 							<option value="admin">Admin</option>
 						</select>
@@ -73,35 +86,38 @@ class EmployeeInfo extends Component {
 					<div className="field">
 						<div className="control">
 							<input
+								onChange={this.handleInputChange.bind(this, 'name')}
 								type="text"
 								className={`input ${this.state.errors.name ? 'is-danger' : ''}`}
 								ref="name"
 								placeholder="Enter employee name"
-								defaultValue={this.props.employee.name}
+								value={this.state.employee.name}
 							/>
 						</div>
 					</div>
 					<div className="field is-grouped">
 						<div className="control">
 							<input
+								onChange={this.handleInputChange.bind(this, 'phone')}
 								type="text"
 								className="input"
 								ref="phone"
 								placeholder="Enter employee phone"
-								defaultValue={this.props.employee.phone}
+								value={this.state.employee.phone}
 							/>
 						</div>
 						<div className="control">
 							<input
+								onChange={this.handleInputChange.bind(this, 'email')}
 								type="text"
 								className="input"
 								ref="email"
 								placeholder="Enter employee email"
-								defaultValue={this.props.employee.email}
+								value={this.state.employee.email}
 							/>
 						</div>
 					</div>
-					{this.renderTypeSelect(this.props.employee.type)}
+					{this.renderTypeSelect(this.props.me.type)}
 					<div className="field is-grouped">
 						<div className="control">
 							<button

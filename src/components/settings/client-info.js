@@ -46,7 +46,10 @@ class ClientInfo extends Component {
 			})
 			.then(res => {
 				if (res.payload.status === 200) {
-					this.setState({ errors: { message: 'Client updated successfully ' } });
+					this.setState({
+						errors: { message: 'Client updated successfully ' },
+						isLoading: false,
+					});
 				} else this.setState({ isLoading: false });
 			});
 	}

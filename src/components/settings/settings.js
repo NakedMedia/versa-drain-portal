@@ -14,7 +14,13 @@ import * as actions from '../../actions';
 class Settings extends Component {
 	renderUserInfo(selectedUser) {
 		if (selectedUser.type !== 'client') {
-			return <EmployeeInfo employee={selectedUser} updateUser={this.props.updateUser} />;
+			return (
+				<EmployeeInfo
+					me={this.props.me}
+					employee={selectedUser}
+					updateUser={this.props.updateUser}
+				/>
+			);
 		}
 
 		if (selectedUser.type === 'client') {
@@ -40,10 +46,11 @@ class Settings extends Component {
 			<div>
 				{this.renderUserInfo(selectedUser)}
 				<ProfilePicture
-					changeProfilePicture={this.props.changeProfilePicture}
+					user={selectedUser}
+					updateUser={this.props.updateUser}
 					uploadImage={this.props.uploadImage}
 				/>
-				<PasswordReset changePassword={this.props.changePassword} />
+				<PasswordReset user={selectedUser} updateUser={this.props.updateUser} />
 			</div>
 		);
 	}
