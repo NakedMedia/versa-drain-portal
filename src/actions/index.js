@@ -59,7 +59,11 @@ export function fetchAll(token) {
 							);
 					}
 
-					dispatch({ type: types.FETCH_REPORTS, payload: reports.data });
+					dispatch({
+						type: types.FETCH_REPORTS,
+						payload: reports.data,
+						isAdmin: me.data.type === 'admin',
+					});
 					dispatch({ type: types.FETCH_ME, payload: me.data });
 				})
 			)
@@ -81,7 +85,7 @@ export function createReport(report) {
 export function createClient(client) {
 	return {
 		type: types.CREATE_CLIENT,
-		payload: axios.patch(`${routes.apiRoot}/clients`, client),
+		payload: axios.post(`${routes.apiRoot}/clients`, client),
 	};
 }
 
@@ -106,6 +110,24 @@ export function updateUser(user) {
 			return {
 				type: types.UPDATE_EMPLOYEE,
 				payload: axios.patch(`${routes.apiRoot}/employees/${user.id}`, user),
+			};
+	}
+}
+
+export function deleteUser(user) {
+	switch (user.type) {
+		case 'client':
+			return {
+				type: types.DELETE_CLIENT,
+				payload: axios.delete(`${routes.apiRoot}/clients/${user.id}`),
+			};
+
+		case 'admin':
+		case 'employee':
+		default:
+			return {
+				type: types.DELETE_EMPLOYEE,
+				payload: axios.delete(`${routes.apiRoot}/employees/${user.id}`),
 			};
 	}
 }

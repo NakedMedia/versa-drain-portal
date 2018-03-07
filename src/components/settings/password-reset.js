@@ -27,9 +27,21 @@ class PasswordReset extends Component {
 
 		this.setState({ isPassLoading: true });
 
-		this.props.changePassword(currentPassword, newPassword).then(action => {
-			this.setState({ isPassLoading: false, passMessage: action.payload.data.message });
-		});
+		this.props
+			.updateUser({ ...this.props.user, currentPassword, password: newPassword })
+			.then(action => {
+				if (action.payload.data.error) {
+					return this.setState({
+						isPassLoading: false,
+						passMessage: action.payload.data.error,
+					});
+				}
+
+				this.setState({
+					isPassLoading: false,
+					passMessage: 'Password updated successfully',
+				});
+			});
 	}
 
 	render() {

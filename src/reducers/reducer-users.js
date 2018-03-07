@@ -19,6 +19,8 @@ export default (state = {}, action) => {
 
 	switch (action.type) {
 		case FETCH_REPORTS:
+			if (action.isAdmin) return state;
+
 			action.payload.forEach(report => {
 				if (!clients.find(client => report.client.id === client.id)) {
 					clients.push(report.client);
@@ -49,6 +51,12 @@ export default (state = {}, action) => {
 				me: action.payload.data.id === state.me.id ? action.payload.data : state.me,
 			};
 
+		case DELETE_CLIENT:
+			return {
+				...state,
+				clients: state.clients.filter(client => client.id !== action.payload.data.id),
+			};
+
 		case FETCH_EMPLOYEES:
 			return { ...state, employees: action.payload };
 
@@ -63,6 +71,14 @@ export default (state = {}, action) => {
 						employee.id === action.payload.data.id ? action.payload.data : employee
 				),
 				me: action.payload.data.id === state.me.id ? action.payload.data : state.me,
+			};
+
+		case DELETE_EMPLOYEE:
+			return {
+				...state,
+				employees: state.employees.filter(
+					employee => employee.id !== action.payload.data.id
+				),
 			};
 
 		default:

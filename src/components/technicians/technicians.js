@@ -4,22 +4,28 @@ import { connect } from 'react-redux';
 
 import routes from '../../../config/routes';
 
+import * as actions from '../../actions';
+
 import emptyProfile from '../../img/empty-profile.jpg';
 
 const Technicians = props => {
-	function renderAdminOptions(type, employeeId) {
+	function renderAdminOptions(type, employee) {
 		if (type !== 'admin') return null;
 
 		return (
 			<div className="media-right">
 				<span className="icon has-text-primary is-large">
-					<Link to={`${routes.webRoot}/technicians/${employeeId}/edit`}>
+					<Link to={`${routes.webRoot}/technicians/${employee.id}/edit`}>
 						<i className="fas fa-edit" />
 					</Link>
 				</span>
 
 				<span className="icon has-text-primary is-large">
-					<a>
+					<a
+						onClick={() => {
+							props.deleteUser(employee);
+						}}
+					>
 						<i className="fas fa-trash" />
 					</a>
 				</span>
@@ -75,7 +81,7 @@ const Technicians = props => {
 							</p>
 						</div>
 					</div>
-					{renderAdminOptions(props.me.type, employee.id)}
+					{renderAdminOptions(props.me.type, employee)}
 				</article>
 			</div>
 		));
@@ -91,4 +97,4 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps)(Technicians);
+export default connect(mapStateToProps, actions)(Technicians);
