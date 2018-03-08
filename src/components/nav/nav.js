@@ -18,7 +18,7 @@ export default props => {
 				<span className="icon is-medium">
 					<i className="fas fa-clipboard" />
 				</span>
-				<span>New Report</span>
+				<span>Create Report</span>
 			</NavLink>
 		);
 	}
@@ -35,7 +35,7 @@ export default props => {
 				<span className="icon is-medium">
 					<i className="fas fa-briefcase" />
 				</span>
-				<span>New Client</span>
+				<span>Create Client</span>
 			</NavLink>
 		);
 	}
@@ -52,7 +52,7 @@ export default props => {
 				<span className="icon is-medium">
 					<i className="fas fa-wrench" />
 				</span>
-				<span>New Employee</span>
+				<span>Create Employee</span>
 			</NavLink>
 		);
 	}
