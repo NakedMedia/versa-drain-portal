@@ -75,7 +75,7 @@ class Technicians extends Component {
 									<br />
 									<small>
 										<strong>Employee ID: </strong>
-										{employee.id}
+										#{employee.id}
 									</small>
 									<br />
 									<small>

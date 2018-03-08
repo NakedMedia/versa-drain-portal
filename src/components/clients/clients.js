@@ -76,7 +76,7 @@ class Clients extends Component {
 									<br />
 									<small>
 										<strong>Client ID: </strong>
-										{client.id}
+										#{client.id}
 									</small>
 									<br />
 									<small>

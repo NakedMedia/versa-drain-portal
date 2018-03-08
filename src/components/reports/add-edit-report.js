@@ -38,37 +38,33 @@ class AddEditReport extends Component {
 	}
 
 	handleEmployeeChange(selectedOption) {
-		this.setState({ employee: selectedOption });
+		this.setState({ employee: selectedOption ? selectedOption.value : null });
 	}
 
 	handleClientChange(selectedOption) {
-		this.setState({ client: selectedOption });
+		this.setState({ client: selectedOption ? selectedOption.value : null });
 	}
 
 	handleSubmit(e) {
 		e.preventDefault();
 
 		const description = this.refs.description.value;
-		const client = this.state.client;
-		const employee = this.props.me.type === 'admin' ? this.state.employee : this.props.me.id;
+		const client_id = this.state.client;
+		const employee_id =
+			this.props.me.type === 'admin' ? this.state.employee_id : this.props.me.id;
 		const media_id = this.state.media_id;
 
-		console.log(employee, client);
-
-		if (!client || !description || !employee) {
+		if (!client_id || !description || !employee_id) {
 			return this.setState({
 				errors: {
 					...this.state.errors,
-					client: !client,
-					employee: !employee,
+					client: !client_id,
+					employee: !employee_id,
 					description: !description,
 					message: !client_id || !description ? 'The fields in red are required' : '',
 				},
 			});
 		}
-
-		const employee_id = employee.value;
-		const client_id = client.value;
 
 		this.setState({ isLoading: true });
 
