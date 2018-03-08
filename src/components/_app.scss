@@ -73,6 +73,22 @@ body,
 	}
 }
 
+.vd-search-select {
+	width: 15rem;
+	display: inline-block;
+	margin-right: 0.75rem;
+	box-shadow: $vd-box-shadow;
+
+	.Select-control {
+		border-radius: $input-radius;
+		border: none;
+	}
+}
+
+.vd-search-select-danger {
+	border: 1px solid $primary;
+}
+
 .vd-content {
 	background-color: $white-ter;
 	padding: 2rem 1rem;

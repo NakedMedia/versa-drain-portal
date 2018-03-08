@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import withRouter from 'react-router-dom/es/withRouter';
+import Select from 'react-select';
 
 import routes from '../../../config/routes';
 
@@ -15,6 +16,8 @@ class AddEditReport extends Component {
 
 		this.state = {
 			media_id: null,
+			employee: null,
+			client: null,
 			errors: {},
 		};
 	}
@@ -34,28 +37,38 @@ class AddEditReport extends Component {
 		});
 	}
 
+	handleEmployeeChange(selectedOption) {
+		this.setState({ employee: selectedOption });
+	}
+
+	handleClientChange(selectedOption) {
+		this.setState({ client: selectedOption });
+	}
+
 	handleSubmit(e) {
 		e.preventDefault();
 
 		const description = this.refs.description.value;
-		const client_id = parseInt(this.refs.client.value, 10);
-		const employee_id =
-			this.props.me.type === 'admin'
-				? parseInt(this.refs.employee.value, 10)
-				: this.props.me.id;
+		const client = this.state.client;
+		const employee = this.props.me.type === 'admin' ? this.state.employee : this.props.me.id;
 		const media_id = this.state.media_id;
 
-		if (!client_id || !description || !employee_id) {
+		console.log(employee, client);
+
+		if (!client || !description || !employee) {
 			return this.setState({
 				errors: {
 					...this.state.errors,
-					client: !client_id,
-					employee: !employee_id,
+					client: !client,
+					employee: !employee,
 					description: !description,
 					message: !client_id || !description ? 'The fields in red are required' : '',
 				},
 			});
 		}
+
+		const employee_id = employee.value;
+		const client_id = client.value;
 
 		this.setState({ isLoading: true });
 
@@ -66,27 +79,28 @@ class AddEditReport extends Component {
 	}
 
 	renderOptions(clients) {
-		if (!clients || clients.length === 0) return null;
+		if (!clients || clients.length === 0) return [];
 
-		return clients.map(user => (
-			<option key={user.id} value={user.id}>
-				{user.name}
-			</option>
-		));
+		return clients.map(user => ({
+			value: user.id,
+			label: `#${user.id} - ${user.name}`,
+		}));
 	}
 
 	renderEmployeeSelect(type) {
 		if (type !== 'admin') return null;
 
 		return (
-			<p className="control">
-				<span className={`select ${this.state.errors.employee ? 'is-danger' : ''}`}>
-					<select ref="employee">
-						<option value={null}>Select Employee</option>
-						{this.renderOptions(this.props.employees)}
-					</select>
-				</span>
-			</p>
+			<Select
+				name="employee"
+				value={this.state.employee}
+				options={this.renderOptions(this.props.employees)}
+				onChange={this.handleEmployeeChange.bind(this)}
+				placeholder="Select employee"
+				className={`vd-search-select ${this.state.errors.employee
+					? 'vd-search-select-danger'
+					: ''}`}
+			/>
 		);
 	}
 
@@ -130,16 +144,22 @@ class AddEditReport extends Component {
 						/>
 					</div>
 				</div>
-				<div className="field is-grouped">
+
+				<div className="field">
 					{this.renderEmployeeSelect(this.props.me.type)}
-					<p className="control">
-						<span className={`select ${this.state.errors.client ? 'is-danger' : ''}`}>
-							<select ref="client">
-								<option value={null}>Select Client</option>
-								{this.renderOptions(this.props.clients)}
-							</select>
-						</span>
-					</p>
+
+					<Select
+						name="client"
+						value={this.state.client}
+						options={this.renderOptions(this.props.clients)}
+						onChange={this.handleClientChange.bind(this)}
+						placeholder="Select client"
+						className={`vd-search-select ${this.state.errors.client
+							? 'vd-search-select-danger'
+							: ''}`}
+					/>
+				</div>
+				<div className="field is-grouped">
 					<div className="control">
 						<div className="file is-white vd-box-shadow">
 							<div htmlFor="file" className="file-label">
