@@ -47,17 +47,16 @@ class AddEditTechnician extends Component {
 		const password = this.refs.password.value;
 		const confirmPassword = this.refs.confirmPassword.value;
 
-		if (!name || !password || !confirmPassword) {
+		if (!name || !password || !confirmPassword || !email || !phone) {
 			return this.setState({
 				errors: {
 					...this.state.errors,
 					name: !name,
 					password: !password,
 					confirmPassword: !confirmPassword,
-					message:
-						!name || !password || !confirmPassword
-							? 'The fields in red are required'
-							: '',
+					email: !email,
+					phone: !phone,
+					message: 'The fields in red are required',
 				},
 			});
 		}
@@ -127,7 +126,7 @@ class AddEditTechnician extends Component {
 						<div className="control">
 							<input
 								type="text"
-								className="input"
+								className={`input ${this.state.errors.phone ? 'is-danger' : ''}`}
 								ref="phone"
 								placeholder="Enter employee phone"
 							/>
@@ -135,7 +134,7 @@ class AddEditTechnician extends Component {
 						<div className="control">
 							<input
 								type="text"
-								className="input"
+								className={`input ${this.state.errors.email ? 'is-danger' : ''}`}
 								ref="email"
 								placeholder="Enter employee email"
 							/>
