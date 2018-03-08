@@ -37,7 +37,7 @@ const Technicians = props => {
 		if (!props.employeesList || !props.me) return <div className="loader" />;
 		if (props.employeesList.length === 0) return <h3>No Technicians</h3>;
 
-		return employees.map(employee => (
+		return employees.filter(employee => employee.id !== props.me.id).map(employee => (
 			<div className="box" key={employee.id}>
 				<article className="media">
 					<div className="media-left">
