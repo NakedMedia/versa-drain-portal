@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import Select from 'react-select';
 
 import emptyProfile from '../../img/empty-profile.jpg';
 
@@ -21,12 +22,12 @@ class Reports extends Component {
 		};
 	}
 
-	handleEmployeeSelect(e) {
-		this.setState({ employee: parseInt(e.target.value, 10) || null });
+	handleEmployeeSelect(selectedValue) {
+		this.setState({ employee: selectedValue ? selectedValue.value : null });
 	}
 
-	handleClientSelect(e) {
-		this.setState({ client: parseInt(e.target.value, 10) || null });
+	handleClientSelect(selectedValue) {
+		this.setState({ client: selectedValue ? selectedValue.value : null });
 	}
 
 	handleSearch(e) {
@@ -51,17 +52,13 @@ class Reports extends Component {
 		if (type === 'employee') return null;
 
 		return (
-			<p className="control">
-				<span className="select">
-					<select
-						defaultValue={this.state.employee}
-						onChange={this.handleEmployeeSelect.bind(this)}
-					>
-						<option value={null}>All</option>
-						{this.renderOptions(this.props.employees)}
-					</select>
-				</span>
-			</p>
+			<Select
+				className="vd-search-select is-marginless"
+				value={this.state.employee}
+				onChange={this.handleEmployeeSelect.bind(this)}
+				options={this.renderOptions(this.props.employees)}
+				placeholder="All"
+			/>
 		);
 	}
 
@@ -69,28 +66,23 @@ class Reports extends Component {
 		if (type === 'client') return null;
 
 		return (
-			<p className="control">
-				<span className="select">
-					<select
-						defaultValue={this.state.client}
-						onChange={this.handleClientSelect.bind(this)}
-					>
-						<option value={null}>All</option>
-						{this.renderOptions(this.props.clients)}
-					</select>
-				</span>
-			</p>
+			<Select
+				className="vd-search-select is-marginless"
+				value={this.state.client}
+				onChange={this.handleClientSelect.bind(this)}
+				options={this.renderOptions(this.props.clients)}
+				placeholder="All"
+			/>
 		);
 	}
 
 	renderOptions(users) {
-		if (!users || users.length === 0) return null;
+		if (!users || users.length === 0) return [];
 
-		return users.map(user => (
-			<option key={user.id} value={user.id}>
-				{user.name}
-			</option>
-		));
+		return users.map(user => ({
+			value: user.id,
+			label: `#${user.id} - ${user.name}`,
+		}));
 	}
 
 	renderReports(reports) {
