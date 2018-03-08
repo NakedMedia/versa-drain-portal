@@ -126,9 +126,9 @@ class AddEditClient extends Component {
 						<div className="control">
 							<input
 								type="text"
-								className="input"
-								ref="address"
-								placeholder="Enter business address"
+								className={`input ${this.state.errors.name ? 'is-danger' : ''}`}
+								ref="name"
+								placeholder="Enter client name"
 							/>
 						</div>
 					</div>
@@ -136,9 +136,9 @@ class AddEditClient extends Component {
 						<div className="control">
 							<input
 								type="text"
-								className={`input ${this.state.errors.name ? 'is-danger' : ''}`}
-								ref="name"
-								placeholder="Enter client name"
+								className="input"
+								ref="address"
+								placeholder="Enter business address"
 							/>
 						</div>
 					</div>
