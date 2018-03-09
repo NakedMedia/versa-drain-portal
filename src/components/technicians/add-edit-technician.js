@@ -24,9 +24,38 @@ class AddEditTechnician extends Component {
 	}
 
 	handleFile(e) {
+		this.setState({ errors: {} });
+
+		function getExtension(filename) {
+			const parts = filename.split('.');
+			return parts[parts.length - 1];
+		}
+
+		function isImage(filename) {
+			const ext = getExtension(filename);
+			switch (ext.toLowerCase()) {
+				case 'jpg':
+				case 'gif':
+				case 'bmp':
+				case 'png':
+					//etc
+					return true;
+
+				default:
+					return false;
+			}
+		}
+
 		const file = e.target.files[0];
 		const formData = new FormData();
 		formData.append('file', file);
+
+		if (!isImage(file.name)) {
+			return this.setState({
+				errors: { message: 'The selected file is not a supported image' },
+			});
+		}
+
 		this.setState({ isUploading: true });
 
 		this.props.uploadImage(formData).then(action => {

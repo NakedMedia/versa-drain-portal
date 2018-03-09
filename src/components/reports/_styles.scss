@@ -10,3 +10,19 @@
 	display: inline-flex;
 	border-color: $white-ter;
 }
+
+.vd-image-box {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	background-size: cover;
+	height: 200px;
+	width: 200px;
+
+	.delete {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+	}
+}

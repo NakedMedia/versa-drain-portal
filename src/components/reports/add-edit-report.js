@@ -15,7 +15,8 @@ class AddEditReport extends Component {
 		super(props);
 
 		this.state = {
-			media_id: null,
+			media_ids: [],
+			media_urls: [],
 			employee: null,
 			client: null,
 			errors: {},
@@ -27,13 +28,46 @@ class AddEditReport extends Component {
 	}
 
 	handleFile(e) {
+		this.setState({ errors: {} });
+
+		function getExtension(filename) {
+			const parts = filename.split('.');
+			return parts[parts.length - 1];
+		}
+
+		function isImage(filename) {
+			const ext = getExtension(filename);
+			switch (ext.toLowerCase()) {
+				case 'jpg':
+				case 'gif':
+				case 'bmp':
+				case 'png':
+					//etc
+					return true;
+
+				default:
+					return false;
+			}
+		}
+
 		const file = e.target.files[0];
 		const formData = new FormData();
 		formData.append('file', file);
+
+		if (!isImage(file.name)) {
+			return this.setState({
+				errors: { message: 'The selected file is not a supported image' },
+			});
+		}
+
 		this.setState({ isUploading: true });
 
 		this.props.uploadImage(formData).then(action => {
-			this.setState({ isUploading: false, media_id: action.payload.data.media_id });
+			this.setState({
+				isUploading: false,
+				media_ids: [...this.state.media_ids, action.payload.data.media_id],
+				media_urls: [...this.state.media_urls, action.payload.data.media_url],
+			});
 		});
 	}
 
@@ -45,14 +79,22 @@ class AddEditReport extends Component {
 		this.setState({ client: selectedOption ? selectedOption.value : null });
 	}
 
+	deleteImage(index) {
+		this.setState({
+			media_ids: this.state.media_ids.filter((id, i) => i !== index),
+			media_urls: this.state.media_urls.filter((url, i) => i !== index),
+		});
+	}
+
 	handleSubmit(e) {
 		e.preventDefault();
 
+		this.setState({ errors: {} });
+
 		const description = this.refs.description.value;
 		const client_id = this.state.client;
-		const employee_id =
-			this.props.me.type === 'admin' ? this.state.employee_id : this.props.me.id;
-		const media_id = this.state.media_id;
+		const employee_id = this.props.me.type === 'admin' ? this.state.employee : this.props.me.id;
+		const media_ids = this.state.media_ids;
 
 		if (!client_id || !description || !employee_id) {
 			return this.setState({
@@ -68,7 +110,7 @@ class AddEditReport extends Component {
 
 		this.setState({ isLoading: true });
 
-		this.props.createReport({ description, employee_id, client_id, media_id }).then(res => {
+		this.props.createReport({ description, employee_id, client_id, media_ids }).then(res => {
 			if (res.payload.status === 200) this.setState({ finished: true });
 			else this.setState({ isLoading: false });
 		});
@@ -100,26 +142,50 @@ class AddEditReport extends Component {
 		);
 	}
 
-	renderFileName() {
-		if (this.state.isUploading) {
+	renderImages(urls) {
+		if (urls.length === 0) return null;
+
+		return urls.map((url, index) => (
+			<div key={index} className="control">
+				<div className="box vd-image-box" style={{ backgroundImage: `url(${url})` }}>
+					<a className="delete" onClick={() => this.deleteImage(index)} />
+				</div>
+			</div>
+		));
+	}
+
+	renderAddImage() {
+		if (!this.state.isUploading) {
 			return (
-				<span className="file-name vd-file-name">
+				<div className="control">
+					<input
+						className="file-input"
+						type="file"
+						ref="file"
+						onChange={this.handleFile.bind(this)}
+					/>
+					<div
+						className="box vd-image-box has-cursor-pointer"
+						onClick={() => {
+							this.refs.file.click();
+						}}
+					>
+						<span className="icon is-large has-text-primary">
+							<i className="fa fa-lg fa-plus" />
+						</span>
+						<span className="file-label has-text-grey-dark">Add Image</span>
+					</div>
+				</div>
+			);
+		}
+
+		return (
+			<div className="control">
+				<div className="box vd-image-box">
 					<div className="loader" />
-				</span>
-			);
-		}
-
-		if (this.state.media_id) {
-			return (
-				<span className="file-name vd-file-name">
-					<span className="icon has-text-primary">
-						<i className="fa fa-check" />
-					</span>
-				</span>
-			);
-		}
-
-		return null;
+				</div>
+			</div>
+		);
 	}
 
 	render() {
@@ -155,33 +221,9 @@ class AddEditReport extends Component {
 							: ''}`}
 					/>
 				</div>
-				<div className="field is-grouped">
-					<div className="control">
-						<div className="file is-white vd-box-shadow">
-							<div htmlFor="file" className="file-label">
-								<input
-									className="file-input"
-									type="file"
-									ref="file"
-									onChange={this.handleFile.bind(this)}
-								/>
-								<span
-									className="file-cta"
-									onClick={() => {
-										this.refs.file.click();
-									}}
-								>
-									<span className="file-icon has-text-grey-dark">
-										<i className="fas fa-upload" />
-									</span>
-									<span className="file-label has-text-grey-dark">
-										Upload Image
-									</span>
-								</span>
-								{this.renderFileName()}
-							</div>
-						</div>
-					</div>
+				<div className="field is-grouped is-grouped-multiline">
+					{this.renderImages(this.state.media_urls)}
+					{this.renderAddImage()}
 				</div>
 				<div className="field is-grouped">
 					<div className="control">

@@ -34,17 +34,20 @@ class Reports extends Component {
 		this.setState({ search: e.target.value.toLowerCase() });
 	}
 
-	renderReportImage(img) {
-		if (!img) return null;
+	renderReportImages(mediaUrls) {
+		if (!mediaUrls) return null;
 
 		return (
-			<figure className="media-right">
-				<a href={img}>
-					<span className="icon is-medium has-text-primary">
-						<i className="fa fa-lg fa-image" />
-					</span>
-				</a>
-			</figure>
+			<div className="media-right">
+				{mediaUrls.map((media, index) => (
+					<a key={index} href={media}>
+						<span className="icon is-medium has-text-primary">
+							<i className="fa fa-lg fa-image" />
+						</span>
+						<br />
+					</a>
+				))}
+			</div>
 		);
 	}
 
@@ -119,7 +122,7 @@ class Reports extends Component {
 					<div className="media-content">
 						<p>{report.description}</p>
 					</div>
-					{this.renderReportImage(report.img)}
+					{this.renderReportImages(report.media_urls)}
 				</nav>
 			</div>
 		));
