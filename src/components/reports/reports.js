@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import Select from 'react-select';
+
+import routes from '../../../config/routes';
+
+import * as actions from '../../actions';
 
 import emptyProfile from '../../img/empty-profile.jpg';
 
@@ -88,6 +93,30 @@ class Reports extends Component {
 		}));
 	}
 
+	renderAdminOptions(type, report) {
+		if (type !== 'admin') return null;
+
+		return (
+			<div>
+				<span className="icon has-text-primary is-small">
+					<Link to={`${routes.webRoot}/reports/${report.id}/edit`}>
+						<i className="fas fa-edit" />
+					</Link>
+				</span>
+
+				<span className="icon has-text-primary is-large">
+					<a
+						onClick={() => {
+							this.props.deleteReport(report);
+						}}
+					>
+						<i className="fas fa-trash" />
+					</a>
+				</span>
+			</div>
+		);
+	}
+
 	renderReports(reports) {
 		const fliteredReports = reports.filter(
 			report =>
@@ -118,12 +147,13 @@ class Reports extends Component {
 					</div>
 				</nav>
 				<hr />
-				<nav className="media has-text-grey">
+				<div className="media has-text-grey">
 					<div className="media-content">
 						<p>{report.description}</p>
 					</div>
 					{this.renderReportImages(report.media_urls)}
-				</nav>
+				</div>
+				{this.renderAdminOptions(this.props.me.type, report)}
 			</div>
 		));
 	}
@@ -164,4 +194,4 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps)(Reports);
+export default connect(mapStateToProps, actions)(Reports);

@@ -74,6 +74,10 @@ class App extends Component {
 									path={`${routes.webRoot}/reports/new`}
 									component={AddEditReport}
 								/>
+								<Route
+									path={`${routes.webRoot}/reports/:id/edit`}
+									component={AddEditReport}
+								/>
 								<Route path={`${routes.webRoot}/reports/:id`} component={Reports} />
 								<Route path={`${routes.webRoot}/reports`} component={Reports} />
 								<Route path={`${routes.webRoot}/settings`} component={Settings} />

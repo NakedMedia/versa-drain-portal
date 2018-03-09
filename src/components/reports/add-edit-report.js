@@ -14,11 +14,51 @@ class AddEditReport extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {
+		let selectedReport = {
+			description: '',
 			media_ids: [],
 			media_urls: [],
-			employee: null,
-			client: null,
+			employee: {},
+			client: {},
+		};
+
+		if (props.match.params.id && props.reportsList) {
+			selectedReport = props.reportsList.find(
+				report => report.id === parseInt(props.match.params.id, 10)
+			);
+		}
+
+		this.state = {
+			description: selectedReport.description,
+			media_ids: selectedReport.media_ids,
+			media_urls: selectedReport.media_urls,
+			employee_id: selectedReport.employee.id,
+			client_id: selectedReport.client.id,
+			errors: {},
+		};
+	}
+
+	componentWillReceiveProps(newProps) {
+		let selectedReport = {
+			description: '',
+			media_ids: [],
+			media_urls: [],
+			employee: {},
+			client: {},
+		};
+
+		if (newProps.match.params.id && newProps.reportsList) {
+			selectedReport = newProps.reportsList.find(
+				report => report.id === parseInt(newProps.match.params.id, 10)
+			);
+		}
+
+		this.state = {
+			description: selectedReport.description,
+			media_ids: selectedReport.media_ids,
+			media_urls: selectedReport.media_urls,
+			employee_id: selectedReport.employee.id,
+			client_id: selectedReport.client.id,
 			errors: {},
 		};
 	}
@@ -71,12 +111,16 @@ class AddEditReport extends Component {
 		});
 	}
 
+	handleDescriptionChange(e) {
+		this.setState({ description: e.target.value });
+	}
+
 	handleEmployeeChange(selectedOption) {
-		this.setState({ employee: selectedOption ? selectedOption.value : null });
+		this.setState({ employee_id: selectedOption ? selectedOption.value : null });
 	}
 
 	handleClientChange(selectedOption) {
-		this.setState({ client: selectedOption ? selectedOption.value : null });
+		this.setState({ client_id: selectedOption ? selectedOption.value : null });
 	}
 
 	deleteImage(index) {
@@ -91,17 +135,18 @@ class AddEditReport extends Component {
 
 		this.setState({ errors: {} });
 
-		const description = this.refs.description.value;
-		const client_id = this.state.client;
-		const employee_id = this.props.me.type === 'admin' ? this.state.employee : this.props.me.id;
+		const description = this.state.description;
+		const client_id = this.state.client_id;
+		const employee_id =
+			this.props.me.type === 'admin' ? this.state.employee_id : this.props.me.id;
 		const media_ids = this.state.media_ids;
 
 		if (!client_id || !description || !employee_id) {
 			return this.setState({
 				errors: {
 					...this.state.errors,
-					client: !client_id,
-					employee: !employee_id,
+					client_id: !client_id,
+					employee_id: !employee_id,
 					description: !description,
 					message: !client_id || !description ? 'The fields in red are required' : '',
 				},
@@ -110,10 +155,27 @@ class AddEditReport extends Component {
 
 		this.setState({ isLoading: true });
 
-		this.props.createReport({ description, employee_id, client_id, media_ids }).then(res => {
-			if (res.payload.status === 200) this.setState({ finished: true });
-			else this.setState({ isLoading: false });
-		});
+		if (this.props.match.params.id) {
+			return this.props
+				.updateReport({
+					id: this.props.match.params.id,
+					description,
+					employee_id,
+					client_id,
+					media_ids,
+				})
+				.then(res => {
+					if (res.payload.status === 200) this.setState({ finished: true });
+					else this.setState({ isLoading: false });
+				});
+		}
+
+		return this.props
+			.createReport({ description, employee_id, client_id, media_ids })
+			.then(res => {
+				if (res.payload.status === 200) this.setState({ finished: true });
+				else this.setState({ isLoading: false });
+			});
 	}
 
 	renderOptions(clients) {
@@ -131,7 +193,7 @@ class AddEditReport extends Component {
 		return (
 			<Select
 				name="employee"
-				value={this.state.employee}
+				value={this.state.employee_id}
 				options={this.renderOptions(this.props.employees)}
 				onChange={this.handleEmployeeChange.bind(this)}
 				placeholder="Select employee"
@@ -199,9 +261,11 @@ class AddEditReport extends Component {
 						<textarea
 							ref="description"
 							rows="16"
+							onChange={this.handleDescriptionChange.bind(this)}
 							className={`textarea vd-box-shadow ${this.state.errors.description
 								? 'is-danger'
 								: ''}`}
+							value={this.state.description}
 							placeholder="Enter report description"
 						/>
 					</div>
@@ -212,7 +276,7 @@ class AddEditReport extends Component {
 
 					<Select
 						name="client"
-						value={this.state.client}
+						value={this.state.client_id}
 						options={this.renderOptions(this.props.clients)}
 						onChange={this.handleClientChange.bind(this)}
 						placeholder="Select client"
@@ -252,6 +316,7 @@ class AddEditReport extends Component {
 function mapStateToProps(state) {
 	return {
 		me: state.users.me,
+		reportsList: state.reports.list,
 		employees: state.users.employees,
 		clients: state.users.clients,
 	};

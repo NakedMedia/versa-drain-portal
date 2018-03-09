@@ -82,6 +82,20 @@ export function createReport(report) {
 	};
 }
 
+export function updateReport(report) {
+	return {
+		type: types.UPDATE_REPORT,
+		payload: axios.patch(`${routes.apiRoot}/reports/${report.id}`, report),
+	};
+}
+
+export function deleteReport(report) {
+	return {
+		type: types.DELETE_REPORT,
+		payload: axios.delete(`${routes.apiRoot}/reports/${report.id}`, report),
+	};
+}
+
 export function createClient(client) {
 	return {
 		type: types.CREATE_CLIENT,
