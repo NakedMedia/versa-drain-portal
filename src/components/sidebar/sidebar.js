@@ -50,7 +50,7 @@ export default props => {
 								<span className="icon is-medium">
 									<i className="fas fa-wrench" />
 								</span>
-								<span>Employees</span>
+								<span>Technicians</span>
 							</NavLink>
 						</li>
 					</div>
