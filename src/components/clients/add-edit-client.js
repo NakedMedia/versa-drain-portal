@@ -102,6 +102,15 @@ class AddEditClient extends Component {
 			});
 		}
 
+		if (this.props.clients.find(client => client.id === parseInt(id, 10))) {
+			return this.setState({
+				errors: {
+					id: true,
+					message: 'Another client with that ID already exists',
+				},
+			});
+		}
+
 		this.setState({ isLoading: true });
 
 		this.props
@@ -290,6 +299,7 @@ class AddEditClient extends Component {
 function mapStateToProps(state) {
 	return {
 		me: state.users.me,
+		clients: state.users.clients,
 	};
 }
 
