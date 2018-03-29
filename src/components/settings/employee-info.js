@@ -69,7 +69,7 @@ class EmployeeInfo extends Component {
 							value={this.state.employee.type}
 							onChange={this.handleInputChange.bind(this, 'type')}
 						>
-							<option value="employee">Employee</option>
+							<option value="employee">Technician</option>
 							<option value="admin">Admin</option>
 						</select>
 					</span>

@@ -91,7 +91,9 @@ class Technicians extends Component {
 									{this.props.me.type !== 'client' ? (
 										<small className="is-capitalized">
 											<strong>Type: </strong>
-											{employee.type}
+											{employee.type === 'employee'
+												? 'Technician'
+												: employee.type}
 										</small>
 									) : null}
 								</p>
