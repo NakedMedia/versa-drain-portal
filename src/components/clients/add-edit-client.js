@@ -66,6 +66,7 @@ class AddEditClient extends Component {
 	handleSubmit(e) {
 		e.preventDefault();
 
+		const id = this.refs.id.value;
 		const name = this.refs.name.value;
 		const address = this.refs.address.value;
 		const media_id = this.state.media_id;
@@ -75,15 +76,16 @@ class AddEditClient extends Component {
 		const password = this.refs.password.value;
 		const confirmPassword = this.refs.confirmPassword.value;
 
-		if (!name || !password || !confirmPassword) {
+		if (!id || !name || !password || !confirmPassword) {
 			return this.setState({
 				errors: {
 					...this.state.errors,
+					id: !id,
 					name: !name,
 					password: !password,
 					confirmPassword: !confirmPassword,
 					message:
-						!name || !password || !confirmPassword
+						!id || !name || !password || !confirmPassword
 							? 'The fields in red are required'
 							: '',
 				},
@@ -104,6 +106,7 @@ class AddEditClient extends Component {
 
 		this.props
 			.createClient({
+				id,
 				name,
 				address,
 				contact_name,
@@ -151,6 +154,16 @@ class AddEditClient extends Component {
 			<div className="box">
 				<h6 className="title is-6">Client Info</h6>
 				<form className="form">
+					<div className="field is-grouped">
+						<div className="control">
+							<input
+								type="text"
+								className={`input ${this.state.errors.id ? 'is-danger' : ''}`}
+								ref="id"
+								placeholder="Enter client id"
+							/>
+						</div>
+					</div>
 					<div className="field">
 						<div className="control">
 							<input
