@@ -52,7 +52,7 @@ export default props => {
 				<span className="icon is-medium">
 					<i className="fas fa-wrench" />
 				</span>
-				<span>Create Employee</span>
+				<span>Create Technician</span>
 			</NavLink>
 		);
 	}

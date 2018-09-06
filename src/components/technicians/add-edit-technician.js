@@ -52,14 +52,19 @@ class AddEditTechnician extends Component {
 
 		if (!isImage(file.name)) {
 			return this.setState({
-				errors: { message: 'The selected file is not a supported image' },
+				errors: {
+					message: 'The selected file is not a supported image',
+				},
 			});
 		}
 
 		this.setState({ isUploading: true });
 
 		this.props.uploadImage(formData).then(action => {
-			this.setState({ isUploading: false, media_id: action.payload.data.media_id });
+			this.setState({
+				isUploading: false,
+				media_id: action.payload.data.media_id,
+			});
 		});
 	}
 
@@ -102,10 +107,13 @@ class AddEditTechnician extends Component {
 
 		this.setState({ isLoading: true });
 
-		this.props.createEmployee({ name, email, phone, password, type, media_id }).then(res => {
-			if (res.payload.status === 200) this.setState({ finished: true });
-			else this.setState({ isLoading: false });
-		});
+		this.props
+			.createEmployee({ name, email, phone, password, type, media_id })
+			.then(res => {
+				if (res.payload.status === 200) {
+					this.setState({ finished: true });
+				} else this.setState({ isLoading: false });
+			});
 	}
 
 	renderFileName() {
@@ -139,15 +147,17 @@ class AddEditTechnician extends Component {
 
 		return (
 			<div className="box">
-				<h6 className="title is-6">Employee Info</h6>
+				<h6 className="title is-6">Technician Info</h6>
 				<form className="form">
 					<div className="field">
 						<div className="control">
 							<input
 								type="text"
-								className={`input ${this.state.errors.name ? 'is-danger' : ''}`}
+								className={`input ${
+									this.state.errors.name ? 'is-danger' : ''
+								}`}
 								ref="name"
-								placeholder="Enter employee name"
+								placeholder="Enter technician name"
 							/>
 						</div>
 					</div>
@@ -155,17 +165,21 @@ class AddEditTechnician extends Component {
 						<div className="control">
 							<input
 								type="text"
-								className={`input ${this.state.errors.phone ? 'is-danger' : ''}`}
+								className={`input ${
+									this.state.errors.phone ? 'is-danger' : ''
+								}`}
 								ref="phone"
-								placeholder="Enter employee phone"
+								placeholder="Enter technician phone"
 							/>
 						</div>
 						<div className="control">
 							<input
 								type="text"
-								className={`input ${this.state.errors.email ? 'is-danger' : ''}`}
+								className={`input ${
+									this.state.errors.email ? 'is-danger' : ''
+								}`}
 								ref="email"
-								placeholder="Enter employee email"
+								placeholder="Enter technician email"
 							/>
 						</div>
 					</div>
@@ -173,7 +187,7 @@ class AddEditTechnician extends Component {
 						<div className="control">
 							<span className="select">
 								<select ref="type">
-									<option value="employee">Employee</option>
+									<option value="employee">Technician</option>
 									<option value="admin">Admin</option>
 								</select>
 							</span>
@@ -184,7 +198,11 @@ class AddEditTechnician extends Component {
 						<div className="control">
 							<input
 								type="password"
-								className={`input ${this.state.errors.password ? 'is-danger' : ''}`}
+								className={`input ${
+									this.state.errors.password
+										? 'is-danger'
+										: ''
+								}`}
 								ref="password"
 								placeholder="Enter password"
 							/>
@@ -194,9 +212,11 @@ class AddEditTechnician extends Component {
 						<div className="control">
 							<input
 								type="password"
-								className={`input ${this.state.errors.confirmPassword
-									? 'is-danger'
-									: ''}`}
+								className={`input ${
+									this.state.errors.confirmPassword
+										? 'is-danger'
+										: ''
+								}`}
 								ref="confirmPassword"
 								placeholder="Confirm password"
 							/>
@@ -236,20 +256,25 @@ class AddEditTechnician extends Component {
 							<button
 								onClick={this.handleSubmit.bind(this)}
 								type="submit"
-								className={`button is-primary ${this.state.isLoading
-									? 'is-loading'
-									: ''}`}
+								className={`button is-primary ${
+									this.state.isLoading ? 'is-loading' : ''
+								}`}
 							>
 								Submit
 							</button>
 						</div>
 						<div className="control">
-							<a onClick={this.handleCancel.bind(this)} className="button is-text">
+							<a
+								onClick={this.handleCancel.bind(this)}
+								className="button is-text"
+							>
 								Cancel
 							</a>
 						</div>
 					</div>
-					<p className="help is-danger">{this.state.errors.message}</p>
+					<p className="help is-danger">
+						{this.state.errors.message}
+					</p>
 				</form>
 			</div>
 		);
@@ -262,4 +287,9 @@ function mapStateToProps(state) {
 	};
 }
 
-export default withRouter(connect(mapStateToProps, actions)(AddEditTechnician));
+export default withRouter(
+	connect(
+		mapStateToProps,
+		actions,
+	)(AddEditTechnician),
+);

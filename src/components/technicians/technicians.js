@@ -27,7 +27,9 @@ class Technicians extends Component {
 		return (
 			<div className="media-right">
 				<span className="icon has-text-primary is-large">
-					<Link to={`${routes.webRoot}/technicians/${employee.id}/edit`}>
+					<Link
+						to={`${routes.webRoot}/technicians/${employee.id}/edit`}
+					>
 						<i className="fas fa-edit" />
 					</Link>
 				</span>
@@ -46,36 +48,54 @@ class Technicians extends Component {
 	}
 
 	renderTechnicians(employees) {
-		if (!this.props.employeesList || !this.props.me) return <div className="loader" />;
-		if (this.props.employeesList.length === 0) return <h3>No Technicians</h3>;
+		if (!this.props.employeesList || !this.props.me) {
+			return <div className="loader" />;
+		}
+
+		if (this.props.employeesList.length === 0) {
+			return <h3>No Technicians</h3>;
+		}
 
 		return employees
 			.filter(
 				employee =>
 					employee.id !== this.props.me.id &&
 					(employee.id.toString().startsWith(this.state.search) ||
-						employee.name.toLowerCase().startsWith(this.state.search) ||
-						employee.email.toLowerCase().startsWith(this.state.search) ||
-						employee.phone.toLowerCase().startsWith(this.state.search))
+						employee.name
+							.toLowerCase()
+							.startsWith(this.state.search) ||
+						employee.email
+							.toLowerCase()
+							.startsWith(this.state.search) ||
+						employee.phone
+							.toLowerCase()
+							.startsWith(this.state.search)),
 			)
 			.map(employee => (
 				<div className="box" key={employee.id}>
 					<article className="media">
 						<div className="media-left">
 							<figure className="image is-64x64 vd-profile-picture">
-								<img src={employee.img || emptyProfile} alt="Client" />
+								<img
+									src={employee.img || emptyProfile}
+									alt="Client"
+								/>
 							</figure>
 						</div>
 						<div className="media-content">
 							<div className="content">
 								<p>
-									<Link to={`${routes.webRoot}/reports/${employee.id}`}>
+									<Link
+										to={`${routes.webRoot}/reports/${
+											employee.id
+										}`}
+									>
 										{employee.name}
 									</Link>
 									<br />
 									<small>
-										<strong>Employee ID: </strong>
-										#{employee.id}
+										<strong>Technician ID: </strong>#
+										{employee.id}
 									</small>
 									<br />
 									<small>
@@ -134,4 +154,7 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps, actions)(Technicians);
+export default connect(
+	mapStateToProps,
+	actions,
+)(Technicians);
