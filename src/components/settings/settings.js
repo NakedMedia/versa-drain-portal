@@ -24,7 +24,12 @@ class Settings extends Component {
 		}
 
 		if (selectedUser.type === 'client') {
-			return <ClientInfo client={selectedUser} updateUser={this.props.updateUser} />;
+			return (
+				<ClientInfo
+					client={selectedUser}
+					updateUser={this.props.updateUser}
+				/>
+			);
 		}
 	}
 
@@ -42,6 +47,10 @@ class Settings extends Component {
 			selectedUser = this.props.users.find(user => user.id === idParam);
 		}
 
+		if (!selectedUser) {
+			return null;
+		}
+
 		return (
 			<div>
 				{this.renderUserInfo(selectedUser)}
@@ -50,7 +59,11 @@ class Settings extends Component {
 					updateUser={this.props.updateUser}
 					uploadImage={this.props.uploadImage}
 				/>
-				<PasswordReset user={selectedUser} updateUser={this.props.updateUser} />
+				<PasswordReset
+					me={this.props.me}
+					user={selectedUser}
+					updateUser={this.props.updateUser}
+				/>
 			</div>
 		);
 	}
@@ -66,4 +79,7 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps, actions)(Settings);
+export default connect(
+	mapStateToProps,
+	actions,
+)(Settings);

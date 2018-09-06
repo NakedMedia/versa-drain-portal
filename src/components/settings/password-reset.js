@@ -22,13 +22,19 @@ class PasswordReset extends Component {
 		}
 
 		if (newPassword === '' || confirmPassword === '') {
-			return this.setState({ passMessage: 'Please enter a new password' });
+			return this.setState({
+				passMessage: 'Please enter a new password',
+			});
 		}
 
 		this.setState({ isPassLoading: true });
 
 		this.props
-			.updateUser({ ...this.props.user, currentPassword, password: newPassword })
+			.updateUser({
+				...this.props.user,
+				currentPassword,
+				password: newPassword,
+			})
 			.then(action => {
 				if (action.payload.data.error) {
 					return this.setState({
@@ -45,11 +51,23 @@ class PasswordReset extends Component {
 	}
 
 	render() {
+		const userType = this.props.me.type;
+
 		return (
 			<div className="box">
-				<form className="form" onSubmit={this.handlePasswordReset.bind(this)}>
-					<h6 className="title is-6 has-text-grey-dark">Reset Password</h6>
-					<div className="field">
+				<form
+					className="form"
+					onSubmit={this.handlePasswordReset.bind(this)}
+				>
+					<h6 className="title is-6 has-text-grey-dark">
+						Reset Password
+					</h6>
+					<div
+						className="field"
+						style={
+							userType === 'admin' ? { display: 'none' } : null
+						}
+					>
 						<div className="control">
 							<input
 								className="input"
@@ -58,8 +76,8 @@ class PasswordReset extends Component {
 								placeholder="Current Password"
 							/>
 						</div>
+						<br />
 					</div>
-					<br />
 					<div className="field">
 						<div className="control">
 							<input
@@ -83,15 +101,17 @@ class PasswordReset extends Component {
 					<div className="field">
 						<div className="control">
 							<button
-								className={`button is-primary ${this.state.isPassLoading
-									? 'is-loading'
-									: ''}`}
+								className={`button is-primary ${
+									this.state.isPassLoading ? 'is-loading' : ''
+								}`}
 								type="submit"
 							>
 								Submit
 							</button>
 						</div>
-						<p className="help has-text-primary">{this.state.passMessage}</p>
+						<p className="help has-text-primary">
+							{this.state.passMessage}
+						</p>
 					</div>
 				</form>
 			</div>
