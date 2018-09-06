@@ -7,7 +7,8 @@
   "scripts": {
     "build": "npm run clean && webpack",
     "watch": "webpack --progress --watch",
-    "serve": "serve -s dist/"
+    "serve": "serve -s dist/",
+    "clean": "rm -rf dist/"
   },
   "author": "Alessandro Vecchi",
   "license": "ISC",
