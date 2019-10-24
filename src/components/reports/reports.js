@@ -62,7 +62,7 @@ class Reports extends Component {
         value={this.state.employee}
         onChange={this.handleEmployeeSelect.bind(this)}
         options={this.renderOptions(this.props.employees)}
-        placeholder="All"
+        placeholder="Select Technician"
       />
     );
   }
@@ -76,7 +76,7 @@ class Reports extends Component {
         value={this.state.client}
         onChange={this.handleClientSelect.bind(this)}
         options={this.renderOptions(this.props.clients)}
-        placeholder="All"
+        placeholder="Select Client"
       />
     );
   }
