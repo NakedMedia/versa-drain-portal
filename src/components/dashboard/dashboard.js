@@ -2,55 +2,66 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import InfoTile from '../common/info-tile';
+
 import routes from '../../../config/routes';
 
 const Dashboard = props => {
-	function renderColumn(icon, amount, name, route) {
-		return (
-			<div className="column">
-				<Link to={`${routes.webRoot}${route}`}>
-					<div className="notification is-primary vd-box-shadow">
-						<div className="level is-mobile">
-							<div className="level-left">
-								<span className="icon is-large">
-									<i className={`fa fa-3x fa-${icon}`} />
-								</span>
-							</div>
-							<div className="level-right level-vertical">
-								<h2 className="title is-2">{amount}</h2>
-								<h4 className="subtitle is-4">{name}</h4>
-							</div>
-						</div>
-					</div>
-				</Link>
-			</div>
-		);
-	}
+  function renderReportTile(reportsList) {
+    if (!reportsList) return null;
 
-	return (
-		<div>
-			<div className="columns is-marginless">
-				{props.reportsList
-					? renderColumn('clipboard', props.reportsList.length, 'Reports', '/reports')
-					: null}
-				{props.me && props.clients && props.me.type !== 'client'
-					? renderColumn('briefcase', props.clients.length, 'Clients', '/clients')
-					: null}
-				{props.me && props.employees && props.me.type !== 'employee'
-					? renderColumn('wrench', props.employees.length, 'Technicians', '/technicians')
-					: null}
-			</div>
-		</div>
-	);
+    return (
+      <div className="column">
+        <Link to={`${routes.webRoot}/reports`}>
+          <InfoTile icon="clipboard" content={reportsList.length} name="Reports" />
+        </Link>
+      </div>
+    );
+  }
+
+  function renderClientTile(clientList) {
+    if (!clientList) return null;
+
+    return (
+      <div className="column">
+        <Link to={`${routes.webRoot}/clients`}>
+          <InfoTile icon="briefcase" content={clientList.length} name="Clients" />
+        </Link>
+      </div>
+    );
+  }
+
+  function renderTechincianTile(employees) {
+    if (!props.me || props.me.type === 'employee') return null;
+    if (!employees) return null;
+
+    return (
+      <div className="column">
+        <Link to={`${routes.webRoot}/reports`}>
+          <InfoTile icon="wrench" content={employees.length} name="Technicians" />
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div className="columns is-marginless">
+        {renderReportTile(props.reportsList)}
+        {renderClientTile(props.clients)}
+        {renderTechincianTile(props.employees)}
+      </div>
+    </div>
+  );
 };
 
 function mapStateToProps(state) {
-	return {
-		me: state.users.me,
-		reportsList: state.reports.list,
-		clients: state.users.clients,
-		employees: state.users.employees,
-	};
+  return {
+    me: state.users.me,
+    reportsList: state.reports.list,
+    clients: state.users.clients,
+    employees: state.users.employees
+  };
 }
 
 export default connect(mapStateToProps)(Dashboard);

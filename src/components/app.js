@@ -14,6 +14,7 @@ import Dashboard from './dashboard/dashboard';
 
 import AddClient from './clients/add-client';
 import Clients from './clients/clients';
+import ClientSingle from './clients/client-single';
 
 import AddEditTechnician from './technicians/add-edit-technician';
 import Technicians from './technicians/technicians';
@@ -47,6 +48,7 @@ class App extends Component {
                 {/*----- Clients Routes -----*/}
                 <Route path={`${routes.webRoot}/clients/new`} component={AddClient} />
                 <Route path={`${routes.webRoot}/clients/:id/edit`} component={Settings} />
+                <Route path={`${routes.webRoot}/clients/:id`} component={ClientSingle} />
                 <Route path={`${routes.webRoot}/clients`} component={Clients} />
 
                 {/*----- Technicians Routes -----*/}

@@ -41,7 +41,7 @@ const ClientListItem = ({ client, me, ...props }) => {
         <div className="media-content">
           <div className="content">
             <p>
-              <Link to={`${routes.webRoot}/reports/${client.id}`}>{client.name}</Link>
+              <Link to={`${routes.webRoot}/clients/${client.id}`}>{client.name}</Link>
               <br />
               <small>
                 <strong>Client ID: </strong>#{client.id}
