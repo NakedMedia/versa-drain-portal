@@ -12,7 +12,7 @@ import Login from './login/login';
 
 import Dashboard from './dashboard/dashboard';
 
-import AddEditClient from './clients/add-edit-client';
+import AddClient from './clients/add-client';
 import Clients from './clients/clients';
 
 import AddEditTechnician from './technicians/add-edit-technician';
@@ -45,7 +45,7 @@ class App extends Component {
                 <Route path={`${routes.webRoot}/dashboard`} component={Dashboard} />
 
                 {/*----- Clients Routes -----*/}
-                <Route path={`${routes.webRoot}/clients/new`} component={AddEditClient} />
+                <Route path={`${routes.webRoot}/clients/new`} component={AddClient} />
                 <Route path={`${routes.webRoot}/clients/:id/edit`} component={Settings} />
                 <Route path={`${routes.webRoot}/clients`} component={Clients} />
 

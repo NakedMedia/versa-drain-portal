@@ -27,7 +27,14 @@ class Clients extends Component {
           client.id.toString().startsWith(this.state.search) ||
           client.name.toLowerCase().startsWith(this.state.search)
       )
-      .map(client => <ClientListItem key={client.id} client={client} me={this.props.me} />);
+      .map(client => (
+        <ClientListItem
+          key={client.id}
+          client={client}
+          me={this.props.me}
+          onDelete={this.props.deleteUser}
+        />
+      ));
 
     if (filteredComponents.length === 0) return <h3>No Clients Found</h3>;
 
