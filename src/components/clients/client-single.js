@@ -9,6 +9,7 @@ import InfoTile from '../common/info-tile';
 
 const storesAreLoaded = props => {
   if (!props.clientsList) return false;
+  if (!props.locationsList) return false;
   if (!props.reportsList) return false;
 
   return true;
@@ -48,16 +49,22 @@ const ClientSingle = props => {
   if (!selectedClient) return <Redirect to={`${routes.webRoot}/clients`} />;
 
   const clientReports = props.reportsList.filter(report => report.client.id === selectedClient.id);
+  const clientLocations = props.locationsList.filter(loc => loc.client.id === selectedClient.id);
 
   return (
     <div>
-      <ClientSingleNav client={selectedClient} reports={clientReports.length} locations="0" />
+      <ClientSingleNav
+        client={selectedClient}
+        reports={clientReports.length}
+        locations={clientLocations.length}
+      />
     </div>
   );
 };
 
 const mapStateToProps = state => ({
   clientsList: state.users.clients,
+  locationsList: state.locations.list,
   reportsList: state.reports.list
 });
 
