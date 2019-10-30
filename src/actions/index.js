@@ -42,15 +42,20 @@ export function fetchAll(token) {
       .all([
         axios.get(`${routes.apiRoot}/clients`),
         axios.get(`${routes.apiRoot}/employees`),
+        axios.get(`${routes.apiRoot}/locations`),
         axios.get(`${routes.apiRoot}/reports`),
         axios.get(`${routes.apiRoot}/me`)
       ])
       .then(
-        axios.spread((clients, employees, reports, me) => {
+        axios.spread((clients, employees, locations, reports, me) => {
           dispatch({ type: types.FETCH_CLIENTS, payload: clients.data });
           dispatch({
             type: types.FETCH_EMPLOYEES,
             payload: employees.data
+          });
+          dispatch({
+            type: types.FETCH_LOCATIONS,
+            payload: locations.data
           });
           dispatch({
             type: types.FETCH_REPORTS,
@@ -85,6 +90,27 @@ export function deleteReport(report) {
   return {
     type: types.DELETE_REPORT,
     payload: axios.delete(`${routes.apiRoot}/reports/${report.id}`, report)
+  };
+}
+
+export function createLocation(location) {
+  return {
+    type: types.CREATE_LOCATION,
+    payload: axios.post(`${routes.apiRoot}/locations`, location)
+  };
+}
+
+export function updateLocation(location) {
+  return {
+    type: types.UPDATE_LOCATION,
+    payload: axios.patch(`${routes.apiRoot}/locations/${location.id}`, location)
+  };
+}
+
+export function deleteLocation(location) {
+  return {
+    type: types.DELETE_LOCATION,
+    payload: axios.delete(`${routes.apiRoot}/locations/${location.id}`, location)
   };
 }
 
