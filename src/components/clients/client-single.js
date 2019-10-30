@@ -10,15 +10,15 @@ import InfoTile from '../common/info-tile';
 const ClientSingleNav = props => (
   <div className="columns">
     <div className="column">
-      <nav className="level">
+      <nav className="level" style={{ height: '100%' }}>
         <div className="level-item">
-          <figure className="image is-96x96 vd-profile-picture">
+          <figure className="image is-64x64 vd-profile-picture">
             <img src={props.client.img || emptyProfile} alt="Client" />
           </figure>
         </div>
 
         <div className="level-item">
-          <h2 className="title is-2 has-text-grey">{props.client.name}</h2>
+          <h3 className="title is-3 has-text-grey">{props.client.name}</h3>
         </div>
       </nav>
     </div>
