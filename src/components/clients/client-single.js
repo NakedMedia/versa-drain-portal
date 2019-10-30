@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -6,6 +6,13 @@ import emptyProfile from '../../img/empty-profile.jpg';
 
 import routes from '../../../config/routes';
 import InfoTile from '../common/info-tile';
+
+const storesAreLoaded = props => {
+  if (!props.clientsList) return false;
+  if (!props.reportsList) return false;
+
+  return true;
+};
 
 const ClientSingleNav = props => (
   <div className="columns">
@@ -31,40 +38,23 @@ const ClientSingleNav = props => (
   </div>
 );
 
-class ClientSingle extends Component {
-  constructor(props) {
-    super(props);
+const ClientSingle = props => {
+  const clientId = parseInt(props.match.params.id, 10);
 
-    this.client = null;
-  }
+  if (!storesAreLoaded(props)) return <div className="loader" />;
 
-  storesAreLoaded() {
-    if (!this.props.clientsList) return false;
-    if (!this.props.reportsList) return false;
+  const selectedClient = props.clientsList.find(client => client.id === clientId);
 
-    return true;
-  }
+  if (!selectedClient) return <Redirect to={`${routes.webRoot}/clients`} />;
 
-  render() {
-    const clientId = parseInt(this.props.match.params.id, 10);
+  const clientReports = props.reportsList.filter(report => report.client.id === selectedClient.id);
 
-    if (!this.storesAreLoaded()) return <div className="loader" />;
-
-    this.selectedClient = this.props.clientsList.find(client => client.id === clientId);
-
-    if (!this.selectedClient) return <Redirect to={`${routes.webRoot}/clients`} />;
-
-    return (
-      <div>
-        <ClientSingleNav
-          client={this.selectedClient}
-          reports={this.props.reportsList.length}
-          locations="0"
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <ClientSingleNav client={selectedClient} reports={clientReports.length} locations="0" />
+    </div>
+  );
+};
 
 const mapStateToProps = state => ({
   clientsList: state.users.clients,
