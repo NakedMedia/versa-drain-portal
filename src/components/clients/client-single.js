@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 import emptyProfile from '../../img/empty-profile.jpg';
 
 import routes from '../../../config/routes';
+
 import InfoTile from '../common/info-tile';
+import FilterSearchBar from '../common/filter-search-bar';
 
 const storesAreLoaded = props => {
   if (!props.clientsList) return false;
@@ -58,6 +60,7 @@ const ClientSingle = props => {
         reports={clientReports.length}
         locations={clientLocations.length}
       />
+      <FilterSearchBar placeholder="Search Locations" />
     </div>
   );
 };

@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import ClientListItem from './client-list-item';
+import FilterSearchBar from '../common/filter-search-bar';
+import ListItem from '../common/list-item';
+
+import routes from '../../../config/routes';
 
 import * as actions from '../../actions';
 
@@ -18,7 +21,7 @@ class Clients extends Component {
     this.setState({ search: e.target.value.toLowerCase() });
   }
 
-  renderClientListItems(clients) {
+  renderListItems(clients) {
     if (!this.props.clientsList || !this.props.me) return <div className="loader" />;
 
     const filteredComponents = clients
@@ -28,11 +31,14 @@ class Clients extends Component {
           client.name.toLowerCase().startsWith(this.state.search)
       )
       .map(client => (
-        <ClientListItem
+        <ListItem
           key={client.id}
-          client={client}
-          me={this.props.me}
-          onDelete={this.props.deleteUser}
+          img={client.img}
+          title={client.name}
+          link={`${routes.webRoot}/clients/${client.id}`}
+          fields={{ 'Client ID': `#${client.id}` }}
+          showEdit={this.props.me.type === 'admin'}
+          onDelete={() => this.props.deleteUser(client)}
         />
       ));
 
@@ -44,20 +50,8 @@ class Clients extends Component {
   render() {
     return (
       <div>
-        <div className="field has-addons">
-          <p className="control has-icons-left has-icons-right vd-report-search">
-            <input
-              className="input"
-              type="text"
-              placeholder="Search Clients"
-              onChange={this.handleSearch.bind(this)}
-            />
-            <span className="icon is-small is-left">
-              <i className="fas fa-search" />
-            </span>
-          </p>
-        </div>
-        {this.renderClientListItems(this.props.clientsList)}
+        <FilterSearchBar placeholder="Search Clients" onChange={this.handleSearch.bind(this)} />
+        {this.renderListItems(this.props.clientsList)}
       </div>
     );
   }
