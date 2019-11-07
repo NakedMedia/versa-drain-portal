@@ -21,37 +21,40 @@ class Clients extends Component {
     this.setState({ search: e.target.value.toLowerCase() });
   }
 
-  renderListItems(clients) {
+  searchClients(clientsList) {
+    return clientsList.filter(
+      client =>
+        client.id.toString().startsWith(this.state.search) ||
+        client.name.toLowerCase().startsWith(this.state.search)
+    );
+  }
+
+  renderListItems() {
     if (!this.props.clientsList || !this.props.me) return <div className="loader" />;
 
-    const filteredComponents = clients
-      .filter(
-        client =>
-          client.id.toString().startsWith(this.state.search) ||
-          client.name.toLowerCase().startsWith(this.state.search)
-      )
-      .map(client => (
-        <ListItem
-          key={client.id}
-          img={client.img}
-          title={client.name}
-          link={`${routes.webRoot}/clients/${client.id}`}
-          fields={{ 'Client ID': `#${client.id}` }}
-          showEdit={this.props.me.type === 'admin'}
-          onDelete={() => this.props.deleteUser(client)}
-        />
-      ));
+    const filteredClients = this.searchClients(this.props.clientsList);
 
-    if (filteredComponents.length === 0) return <h3>No Clients Found</h3>;
+    const clientListItems = filteredClients.map(client => (
+      <ListItem
+        key={client.id}
+        img={client.img}
+        title={client.name}
+        link={`${routes.webRoot}/clients/${client.id}`}
+        fields={{ 'Client ID': `#${client.id}` }}
+        onDelete={() => this.props.deleteUser(client)}
+      />
+    ));
 
-    return filteredComponents;
+    if (clientListItems.length === 0) return <h3>No Clients Found</h3>;
+
+    return clientListItems;
   }
 
   render() {
     return (
       <div>
         <FilterSearchBar placeholder="Search Clients" onChange={this.handleSearch.bind(this)} />
-        {this.renderListItems(this.props.clientsList)}
+        {this.renderListItems()}
       </div>
     );
   }

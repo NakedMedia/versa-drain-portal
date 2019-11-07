@@ -7,7 +7,8 @@ import emptyProfile from '../../img/empty-profile.jpg';
 import routes from '../../../config/routes';
 
 import InfoTile from '../common/info-tile';
-import FilterSearchBar from '../common/filter-search-bar';
+
+import LocationList from './location-list';
 
 const storesAreLoaded = props => {
   if (!props.clientsList) return false;
@@ -60,7 +61,7 @@ const ClientSingle = props => {
         reports={clientReports.length}
         locations={clientLocations.length}
       />
-      <FilterSearchBar placeholder="Search Locations" />
+      <LocationList clientId={selectedClient.id} locations={clientLocations} me={props.me} />
     </div>
   );
 };
@@ -68,7 +69,8 @@ const ClientSingle = props => {
 const mapStateToProps = state => ({
   clientsList: state.users.clients,
   locationsList: state.locations.list,
-  reportsList: state.reports.list
+  reportsList: state.reports.list,
+  me: state.users.me
 });
 
 export default connect(mapStateToProps)(ClientSingle);

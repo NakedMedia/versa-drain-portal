@@ -9,7 +9,7 @@ const renderFields = fields => {
   return (
     <small>
       {Object.keys(fields).map((key, i) => (
-        <p key={i}>
+        <p key={i} className="is-marginless">
           <strong>{key}: </strong>
           {fields[key]}
         </p>
