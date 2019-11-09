@@ -19,7 +19,7 @@ import AddClient from './clients/add-client';
 import Clients from './clients/clients';
 import ClientSingle from './clients/client-single';
 
-import AddEditTechnician from './technicians/add-edit-technician';
+import AddTechnician from './technicians/add-technician';
 import Technicians from './technicians/technicians';
 
 import Reports from './reports/reports';
@@ -62,7 +62,7 @@ class App extends Component {
                 <Route path={`${routes.webRoot}/clients`} component={Clients} />
 
                 {/*----- Technicians Routes -----*/}
-                <Route path={`${routes.webRoot}/technicians/new`} component={AddEditTechnician} />
+                <Route path={`${routes.webRoot}/technicians/new`} component={AddTechnician} />
                 <Route path={`${routes.webRoot}/technicians/:id/edit`} component={Settings} />
                 <Route path={`${routes.webRoot}/technicians`} component={Technicians} />
 
