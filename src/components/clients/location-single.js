@@ -19,11 +19,11 @@ const storesAreLoaded = props => {
 
 const getTechniciansFromReports = reports => {
   const technicianMap = reports.reduce(
-    (acc, report) => ({ ...acc, [report.id]: report.employee }),
+    (acc, report) => ({ ...acc, [report.employee.id]: report.employee }),
     {}
   );
 
-  console.log(technicianMap);
+  return Object.values(technicianMap);
 };
 
 const LocationSingleNav = props => (
@@ -65,7 +65,7 @@ const LocationSingle = props => {
     report => report.location.id === selectedLocation.id
   );
 
-  const locationTechnicians = getTechniciansFromReports(locationReports);
+  const locationEmployees = getTechniciansFromReports(locationReports);
 
   return (
     <div>
@@ -74,7 +74,7 @@ const LocationSingle = props => {
         location={selectedLocation}
         reports={locationReports}
       />
-      <ReportList reports={locationReports} />
+      <ReportList reports={locationReports} employees={locationEmployees} />
     </div>
   );
 };

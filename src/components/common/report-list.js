@@ -8,7 +8,69 @@ class ReportList extends Component {
     super(props);
 
     this.state = {
-      search: ''
+      search: '',
+      employeeId: null,
+      clientId: null,
+      locationId: null
+    };
+  }
+
+  getDropdowns() {
+    const dropdowns = [
+      this.makeEmployeeDropdown(),
+      this.makeClientDropdown(),
+      this.makeLocationDropdown()
+    ];
+
+    // Filter null values
+    return dropdowns.filter(dropdown => !!dropdown);
+  }
+
+  makeEmployeeDropdown() {
+    if (!this.props.employees) return null;
+
+    const options = this.props.employees.map(employee => ({
+      value: employee.id,
+      label: `#${employee.id} - ${employee.name}`
+    }));
+
+    return {
+      value: this.state.employeeId,
+      placeholder: 'Select Technician',
+      options,
+      onChange: option => this.setState({ employeeId: option ? option.value : null })
+    };
+  }
+
+  makeClientDropdown() {
+    if (!this.props.clients) return null;
+
+    const options = this.props.clients.map(client => ({
+      value: client.id,
+      label: `#${client.id} - ${client.name}`
+    }));
+
+    return {
+      value: this.state.clientId,
+      options,
+      placeholder: 'Select Client',
+      onChange: option => this.setState({ clientId: option ? option.value : null })
+    };
+  }
+
+  makeLocationDropdown() {
+    if (!this.props.locations) return null;
+
+    const options = this.props.locations.map(location => ({
+      value: location.id,
+      label: `#${location.id} - ${location.name}`
+    }));
+
+    return {
+      value: this.state.locationId,
+      options,
+      placeholder: 'Select Location',
+      onChange: option => this.setState({ locationId: option ? option.value : null })
     };
   }
 
@@ -19,8 +81,8 @@ class ReportList extends Component {
   searchReports(reports) {
     return reports.filter(
       report =>
-        (report.client.id === this.state.client || !this.state.client) &&
-        (report.employee.id === this.state.employee || !this.state.employee) &&
+        (report.client.id === this.state.clientId || !this.state.clientId) &&
+        (report.employee.id === this.state.employeeId || !this.state.employeeId) &&
         report.description.toLowerCase().includes(this.state.search)
     );
   }
@@ -49,7 +111,11 @@ class ReportList extends Component {
   render() {
     return (
       <div>
-        <FilterSearchBar placeholder="Search Reports" onChange={this.handleSearch.bind(this)} />
+        <FilterSearchBar
+          placeholder="Search Reports"
+          onChange={this.handleSearch.bind(this)}
+          dropdowns={this.getDropdowns()}
+        />
         {this.renderListItems()}
       </div>
     );
