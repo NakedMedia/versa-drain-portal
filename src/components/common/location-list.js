@@ -31,8 +31,6 @@ class LocationList extends Component {
   }
 
   renderListItems() {
-    if (!this.props.locations) return <div className="loader" />;
-
     const filteredLocations = this.searchLocations(this.props.locations);
 
     const locationListItems = filteredLocations.map(location => {
