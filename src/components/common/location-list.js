@@ -44,12 +44,20 @@ class LocationList extends Component {
         'Contact Phone': location.phone
       };
 
+      const onEdit =
+        this.props.isAdmin && this.props.onEdit ? () => this.props.onEdit(location) : null;
+
+      const onDelete =
+        this.props.isAdmin && this.props.onDelete ? () => this.props.onDelete(location) : null;
+
       return (
         <ListItem
           key={location.id}
           title={location.name}
           link={`${routes.webRoot}/clients/${clientId}/locations/${location.id}`}
           fields={fields}
+          onEdit={onEdit}
+          onDelete={onDelete}
         />
       );
     });

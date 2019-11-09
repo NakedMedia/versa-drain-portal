@@ -1,18 +1,22 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import withRouter from 'react-router-dom/es/withRouter';
 
-import InfoTile from '../common/info-tile';
-import ReportList from '../common/report-list';
+import * as actions from '../../../actions';
 
-import emptyProfile from '../../img/empty-profile.jpg';
+import InfoTile from '../../common/info-tile';
+import ReportList from '../../common/report-list';
 
-import routes from '../../../config/routes';
+import emptyProfile from '../../../img/empty-profile.jpg';
+
+import routes from '../../../../config/routes';
 
 const storesAreLoaded = props => {
   if (!props.clientsList) return false;
   if (!props.locationList) return false;
   if (!props.reportsList) return false;
+  if (!props.me) return false;
 
   return true;
 };
@@ -67,6 +71,11 @@ const LocationSingle = props => {
 
   const locationEmployees = getTechniciansFromReports(locationReports);
 
+  const onEdit = report => props.history.push(`${routes.webRoot}/reports/${report.id}/edit`);
+  const onDelete = report => props.deleteLocation(report);
+
+  const isAdmin = props.me.type === 'admin';
+
   return (
     <div>
       <LocationSingleNav
@@ -74,7 +83,13 @@ const LocationSingle = props => {
         location={selectedLocation}
         reports={locationReports}
       />
-      <ReportList reports={locationReports} employees={locationEmployees} />
+      <ReportList
+        reports={locationReports}
+        employees={locationEmployees}
+        onEdit={onEdit}
+        onDelete={onDelete}
+        isAdmin={isAdmin}
+      />
     </div>
   );
 };
@@ -86,4 +101,9 @@ const mapStateToProps = state => ({
   me: state.users.me
 });
 
-export default connect(mapStateToProps)(LocationSingle);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    actions
+  )(LocationSingle)
+);

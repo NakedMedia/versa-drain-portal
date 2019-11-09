@@ -6,6 +6,8 @@ import emptyProfile from '../../img/empty-profile.jpg';
 
 import routes from '../../../config/routes';
 
+import * as actions from '../../actions';
+
 import InfoTile from '../common/info-tile';
 
 import LocationList from '../common/location-list';
@@ -14,6 +16,7 @@ const storesAreLoaded = props => {
   if (!props.clientsList) return false;
   if (!props.locationsList) return false;
   if (!props.reportsList) return false;
+  if (!props.me) return false;
 
   return true;
 };
@@ -54,6 +57,10 @@ const ClientSingle = props => {
   const clientReports = props.reportsList.filter(report => report.client.id === selectedClient.id);
   const clientLocations = props.locationsList.filter(loc => loc.client.id === selectedClient.id);
 
+  const onDelete = location => props.deleteLocation(location);
+
+  const isAdmin = props.me.type === 'admin';
+
   return (
     <div>
       <ClientSingleNav
@@ -61,7 +68,12 @@ const ClientSingle = props => {
         reports={clientReports}
         locations={clientLocations}
       />
-      <LocationList clientId={selectedClient.id} locations={clientLocations} me={props.me} />
+      <LocationList
+        clientId={selectedClient.id}
+        locations={clientLocations}
+        onDelete={onDelete}
+        isAdmin={isAdmin}
+      />
     </div>
   );
 };
@@ -73,4 +85,7 @@ const mapStateToProps = state => ({
   me: state.users.me
 });
 
-export default connect(mapStateToProps)(ClientSingle);
+export default connect(
+  mapStateToProps,
+  actions
+)(ClientSingle);

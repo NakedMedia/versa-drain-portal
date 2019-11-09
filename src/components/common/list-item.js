@@ -36,48 +36,46 @@ const renderTitle = (title, link) => {
   return <strong>{title}</strong>;
 };
 
-const ListItem = props => {
-  const renderAdminOptions = (onDelete, onEdit) => {
-    if (!onDelete && !onEdit) return null;
-
-    return (
-      <div className="media-right">
-        {onEdit ? (
-          <span className="icon has-text-primary is-large">
-            <a onClick={props.onEdit}>
-              <i className="fas fa-edit" />
-            </a>
-          </span>
-        ) : null}
-
-        {onDelete ? (
-          <span className="icon has-text-primary is-large">
-            <a onClick={props.onDelete}>
-              <i className="fas fa-trash" />
-            </a>
-          </span>
-        ) : null}
-      </div>
-    );
-  };
+const renderAdminOptions = (onDelete, onEdit) => {
+  if (!onDelete && !onEdit) return null;
 
   return (
-    <div className="box">
-      <article className="media">
-        <div className="media-left">{renderImage(props.img)}</div>
-        <div className="media-content">
-          <div className="content">
-            <div>
-              {renderTitle(props.title, props.link)}
-              <br />
-              {renderFields(props.fields)}
-            </div>
-          </div>
-        </div>
-        {renderAdminOptions(props.onDelete, props.onEdit)}
-      </article>
+    <div className="media-right">
+      {onEdit ? (
+        <span className="icon has-text-primary is-large">
+          <a onClick={onEdit}>
+            <i className="fas fa-edit" />
+          </a>
+        </span>
+      ) : null}
+
+      {onDelete ? (
+        <span className="icon has-text-primary is-large">
+          <a onClick={onDelete}>
+            <i className="fas fa-trash" />
+          </a>
+        </span>
+      ) : null}
     </div>
   );
 };
+
+const ListItem = props => (
+  <div className="box">
+    <article className="media">
+      <div className="media-left">{renderImage(props.img)}</div>
+      <div className="media-content">
+        <div className="content">
+          <div>
+            {renderTitle(props.title, props.link)}
+            <br />
+            {renderFields(props.fields)}
+          </div>
+        </div>
+      </div>
+      {renderAdminOptions(props.onDelete, props.onEdit)}
+    </article>
+  </div>
+);
 
 export default ListItem;

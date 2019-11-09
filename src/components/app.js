@@ -12,7 +12,7 @@ import Login from './login/login';
 
 import Dashboard from './dashboard/dashboard';
 
-import LocationSingle from './clients/location-single';
+import LocationSingle from './clients/locations/location-single';
 
 import AddClient from './clients/add-client';
 import Clients from './clients/clients';

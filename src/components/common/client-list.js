@@ -29,15 +29,25 @@ class ClientList extends Component {
   renderListItems() {
     const filteredClients = this.searchClients(this.props.clients);
 
-    const clientListItems = filteredClients.map(client => (
-      <ListItem
-        key={client.id}
-        img={client.img}
-        title={client.name}
-        link={`${routes.webRoot}/clients/${client.id}`}
-        fields={{ 'Client ID': `#${client.id}` }}
-      />
-    ));
+    const clientListItems = filteredClients.map(client => {
+      const onEdit =
+        this.props.isAdmin && this.props.onEdit ? () => this.props.onEdit(client) : null;
+
+      const onDelete =
+        this.props.isAdmin && this.props.onDelete ? () => this.props.onDelete(client) : null;
+
+      return (
+        <ListItem
+          key={client.id}
+          img={client.img}
+          title={client.name}
+          link={`${routes.webRoot}/clients/${client.id}`}
+          fields={{ 'Client ID': `#${client.id}` }}
+          onEdit={onEdit}
+          onDelete={onDelete}
+        />
+      );
+    });
 
     if (clientListItems.length === 0) return <h3>No Clients Found</h3>;
 

@@ -92,16 +92,26 @@ class ReportList extends Component {
 
     const filteredReports = this.searchReports(this.props.reports);
 
-    const reportListItems = filteredReports.map((report, index) => (
-      <ReportListItem
-        key={index}
-        employee={report.employee}
-        client={report.client}
-        description={report.description}
-        date={report.date}
-        imgs={report.media_urls}
-      />
-    ));
+    const reportListItems = filteredReports.map((report, index) => {
+      const onEdit =
+        this.props.isAdmin && this.props.onEdit ? () => this.props.onEdit(report) : null;
+
+      const onDelete =
+        this.props.isAdmin && this.props.onDelete ? () => this.props.onDelete(report) : null;
+
+      return (
+        <ReportListItem
+          key={index}
+          employee={report.employee}
+          client={report.client}
+          description={report.description}
+          date={report.date}
+          imgs={report.media_urls}
+          onEdit={onEdit}
+          onDelete={onDelete}
+        />
+      );
+    });
 
     if (reportListItems.length === 0) return <h3>No Reports Found</h3>;
 
