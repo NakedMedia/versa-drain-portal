@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import FilterSearchBar from './filter-search-bar';
+import FilterSearchBar from '../common/filter-search-bar';
 import ReportListItem from './report-list-item';
 
 class ReportList extends Component {

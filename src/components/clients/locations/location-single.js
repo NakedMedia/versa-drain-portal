@@ -6,7 +6,7 @@ import withRouter from 'react-router-dom/es/withRouter';
 import * as actions from '../../../actions';
 
 import InfoTile from '../../common/info-tile';
-import ReportList from '../../common/report-list';
+import ReportList from '../../reports/report-list';
 
 import emptyProfile from '../../../img/empty-profile.jpg';
 

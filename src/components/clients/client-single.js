@@ -10,7 +10,7 @@ import * as actions from '../../actions';
 
 import InfoTile from '../common/info-tile';
 
-import LocationList from '../common/location-list';
+import LocationList from './locations/location-list';
 
 const storesAreLoaded = props => {
   if (!props.clientsList) return false;

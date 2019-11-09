@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-import routes from '../../../config/routes';
+import routes from '../../../../config/routes';
 
-import FilterSearchBar from './filter-search-bar';
-import ListItem from './list-item';
+import FilterSearchBar from '../../common/filter-search-bar';
+import ListItem from '../../common/list-item';
 
 class LocationList extends Component {
   constructor(props) {
