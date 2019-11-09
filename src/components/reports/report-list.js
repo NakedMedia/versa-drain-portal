@@ -83,6 +83,7 @@ class ReportList extends Component {
       report =>
         (report.client.id === this.state.clientId || !this.state.clientId) &&
         (report.employee.id === this.state.employeeId || !this.state.employeeId) &&
+        (report.location.id === this.state.locationId || !this.state.locationId) &&
         report.description.toLowerCase().includes(this.state.search)
     );
   }

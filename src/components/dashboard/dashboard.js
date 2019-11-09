@@ -37,7 +37,7 @@ const Dashboard = props => {
 
     return (
       <div className="column">
-        <Link to={`${routes.webRoot}/reports`}>
+        <Link to={`${routes.webRoot}/technicians`}>
           <InfoTile icon="wrench" content={employees.length} name="Technicians" />
         </Link>
       </div>
