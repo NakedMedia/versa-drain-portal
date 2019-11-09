@@ -13,7 +13,7 @@ class AddEditLocation extends Component {
     super(props);
 
     this.state = {
-      clientId: null,
+      clientId: props.match.params.clientId,
       errors: {}
     };
   }
@@ -25,7 +25,10 @@ class AddEditLocation extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    const id = this.refs.id.value;
+    const selectedLocationId = this.props.match.params.locationId;
+
+    // Use ID from url if in edit mode
+    const id = this.refs.id ? this.refs.id.value : selectedLocationId;
     const name = this.refs.name.value;
     const address = this.refs.address.value;
     const client_id = this.state.clientId;
@@ -46,7 +49,11 @@ class AddEditLocation extends Component {
       });
     }
 
-    if (this.props.locations.find(location => location.id === parseInt(id, 10))) {
+    // Check for duplicate locations if not in edit mode
+    if (
+      !selectedLocationId &&
+      this.props.locations.find(location => location.id === parseInt(id, 10))
+    ) {
       return this.setState({
         errors: {
           id: true,
@@ -57,20 +64,28 @@ class AddEditLocation extends Component {
 
     this.setState({ isLoading: true });
 
-    this.props
-      .createLocation({
-        id,
-        name,
-        address,
-        client_id,
-        contact_name,
-        email,
-        phone
-      })
-      .then(res => {
+    const locationData = {
+      id,
+      name,
+      address,
+      client_id,
+      contact_name,
+      email,
+      phone
+    };
+
+    // Update location if in update mode
+    if (selectedLocationId) {
+      return this.props.updateLocation(locationData).then(res => {
         if (res.payload.status === 200) this.props.history.go(-1);
         else this.setState({ isLoading: false });
       });
+    }
+
+    this.props.createLocation(locationData).then(res => {
+      if (res.payload.status === 200) this.props.history.go(-1);
+      else this.setState({ isLoading: false });
+    });
   }
 
   storesAreLoaded() {
@@ -81,6 +96,24 @@ class AddEditLocation extends Component {
     return true;
   }
 
+  renderIdField() {
+    // Return null if in edit mode
+    if (this.props.match.params.locationId) return null;
+
+    return (
+      <div className="field is-grouped">
+        <div className="control">
+          <input
+            type="text"
+            className={`input ${this.state.errors.id ? 'is-danger' : ''}`}
+            ref="id"
+            placeholder="Enter location id"
+          />
+        </div>
+      </div>
+    );
+  }
+
   render() {
     if (!this.storesAreLoaded()) return <div className="loader" />;
 
@@ -88,20 +121,17 @@ class AddEditLocation extends Component {
       return <Redirect to={`${routes.webRoot}/dashboard`} />;
     }
 
+    const { match, locations, clients } = this.props;
+
+    const selectedLocation = match.params.locationId
+      ? locations.find(location => location.id === parseInt(match.params.locationId, 10))
+      : {};
+
     return (
       <div className="box">
         <form className="form">
           <h6 className="title is-6">Location Info</h6>
-          <div className="field is-grouped">
-            <div className="control">
-              <input
-                type="text"
-                className={`input ${this.state.errors.id ? 'is-danger' : ''}`}
-                ref="id"
-                placeholder="Enter location id"
-              />
-            </div>
-          </div>
+          {this.renderIdField()}
           <div className="field">
             <div className="control">
               <input
@@ -109,6 +139,7 @@ class AddEditLocation extends Component {
                 className={`input ${this.state.errors.name ? 'is-danger' : ''}`}
                 ref="name"
                 placeholder="Enter location name"
+                defaultValue={selectedLocation.name}
               />
             </div>
           </div>
@@ -119,6 +150,7 @@ class AddEditLocation extends Component {
                 className={`input ${this.state.errors.address ? 'is-danger' : ''}`}
                 ref="address"
                 placeholder="Enter location address"
+                defaultValue={selectedLocation.address}
               />
             </div>
           </div>
@@ -129,7 +161,7 @@ class AddEditLocation extends Component {
                   this.state.errors.client_id ? 'is-danger' : null
                 }`}
                 value={this.state.clientId}
-                options={this.props.clients.map(client => ({
+                options={clients.map(client => ({
                   value: client.id,
                   label: `#${client.id} - ${client.name}`
                 }))}
@@ -147,6 +179,7 @@ class AddEditLocation extends Component {
                 className={`input ${this.state.errors.contact_name ? 'is-danger' : ''}`}
                 ref="contact_name"
                 placeholder="Enter location contact name"
+                defaultValue={selectedLocation.contact_name}
               />
             </div>
           </div>
@@ -157,6 +190,7 @@ class AddEditLocation extends Component {
                 className={`input ${this.state.errors.email ? 'is-danger' : ''}`}
                 ref="email"
                 placeholder="Enter location contact email"
+                defaultValue={selectedLocation.email}
               />
             </div>
           </div>
@@ -167,6 +201,7 @@ class AddEditLocation extends Component {
                 className={`input ${this.state.errors.phone ? 'is-danger' : ''}`}
                 ref="phone"
                 placeholder="Enter location contact phone"
+                defaultValue={selectedLocation.phone}
               />
             </div>
           </div>

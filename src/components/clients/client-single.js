@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import emptyProfile from '../../img/empty-profile.jpg';
@@ -57,6 +57,11 @@ const ClientSingle = props => {
   const clientReports = props.reportsList.filter(report => report.client.id === selectedClient.id);
   const clientLocations = props.locationsList.filter(loc => loc.client.id === selectedClient.id);
 
+  const onEdit = location =>
+    props.history.push(
+      `${routes.webRoot}/clients/${location.client.id}/locations/${location.id}/edit`
+    );
+
   const onDelete = location => props.deleteLocation(location);
 
   const isAdmin = props.me.type === 'admin';
@@ -71,6 +76,7 @@ const ClientSingle = props => {
       <LocationList
         clientId={selectedClient.id}
         locations={clientLocations}
+        onEdit={onEdit}
         onDelete={onDelete}
         isAdmin={isAdmin}
       />
@@ -85,7 +91,9 @@ const mapStateToProps = state => ({
   me: state.users.me
 });
 
-export default connect(
-  mapStateToProps,
-  actions
-)(ClientSingle);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    actions
+  )(ClientSingle)
+);

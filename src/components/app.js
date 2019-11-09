@@ -51,6 +51,10 @@ class App extends Component {
                 {/*----- Location Routes -----*/}
                 <Route path={`${routes.webRoot}/locations/new`} component={AddEditLocation} />
                 <Route
+                  path={`${routes.webRoot}/clients/:clientId/locations/:locationId/edit`}
+                  component={AddEditLocation}
+                />
+                <Route
                   path={`${routes.webRoot}/clients/:clientId/locations/:locationId`}
                   component={LocationSingle}
                 />
