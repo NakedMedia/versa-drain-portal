@@ -44,36 +44,35 @@ const renderAdminOptions = (onDelete, onEdit) => {
   );
 };
 
-const ReportListItem = ({ description, employee, client, date, imgs, ...props }) => {
-  return (
-    <div className="box">
-      <nav className="level is-mobile">
-        <div className="level-left">
-          <figure className="level-item image is-48x48 vd-profile-picture">
-            <img src={employee.img || emptyProfile} alt="User" />
-          </figure>
-          <p className="level-item has-text-grey">{employee.name}</p>
-        </div>
-        <div className="level-left level-vertical is-hidden-mobile">
-          <p className="has-text-grey-light is-size-7">{moment(date).format('lll')}</p>
-        </div>
-        <div className="level-right">
-          <p className="level-item has-text-grey">{client.name}</p>
-          <figure className="level-item image is-48x48 vd-profile-picture is-marginless">
-            <img src={client.img || emptyProfile} alt="User" />
-          </figure>
-        </div>
-      </nav>
-      <hr />
-      <div className="media has-text-grey">
-        <div className="media-content">
-          <p>{description}</p>
-        </div>
-        {renderReportImages(imgs)}
+const ReportListItem = ({ description, employee, client, location, date, imgs, ...props }) => (
+  <div className="box">
+    <nav className="level is-mobile">
+      <div className="level-left">
+        <figure className="level-item image is-48x48 vd-profile-picture">
+          <img src={employee.img || emptyProfile} alt="User" />
+        </figure>
+        <p className="level-item has-text-grey">{employee.name}</p>
       </div>
-      {renderAdminOptions(props.onDelete, props.onEdit)}
+      <div className="level-right">
+        <p className="level-item has-text-grey">{client.name}</p>
+        <figure className="level-item image is-48x48 vd-profile-picture is-marginless">
+          <img src={client.img || emptyProfile} alt="User" />
+        </figure>
+      </div>
+    </nav>
+    <div className="is-hidden-mobile">
+      <p className="is-size-6">{location.name}</p>
+      <p className="has-text-grey-light is-size-7">{moment(date).format('lll')}</p>
     </div>
-  );
-};
+    <hr />
+    <div className="media has-text-grey">
+      <div className="media-content">
+        <p>{description}</p>
+      </div>
+      {renderReportImages(imgs)}
+    </div>
+    {renderAdminOptions(props.onDelete, props.onEdit)}
+  </div>
+);
 
 export default ReportListItem;

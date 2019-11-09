@@ -104,6 +104,7 @@ class ReportList extends Component {
           key={index}
           employee={report.employee}
           client={report.client}
+          location={report.location}
           description={report.description}
           date={report.date}
           imgs={report.media_urls}
