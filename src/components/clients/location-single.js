@@ -2,23 +2,31 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import InfoTile from '../common/info-tile';
+import ReportList from '../common/report-list';
+
 import emptyProfile from '../../img/empty-profile.jpg';
 
 import routes from '../../../config/routes';
 
-import InfoTile from '../common/info-tile';
-
-import LocationList from './location-list';
-
 const storesAreLoaded = props => {
   if (!props.clientsList) return false;
-  if (!props.locationsList) return false;
+  if (!props.locationList) return false;
   if (!props.reportsList) return false;
 
   return true;
 };
 
-const ClientSingleNav = props => (
+const getTechniciansFromReports = reports => {
+  const technicianMap = reports.reduce(
+    (acc, report) => ({ ...acc, [report.id]: report.employee }),
+    {}
+  );
+
+  console.log(technicianMap);
+};
+
+const LocationSingleNav = props => (
   <div className="columns">
     <div className="column">
       <nav className="level" style={{ height: '100%' }}>
@@ -34,7 +42,7 @@ const ClientSingleNav = props => (
       </nav>
     </div>
     <div className="column">
-      <InfoTile icon="building" content={props.locations.length} name="Locations" />
+      <InfoTile icon="building" name={props.location.name} />
     </div>
     <div className="column">
       <InfoTile icon="clipboard" content={props.reports.length} name="Reports" />
@@ -42,35 +50,40 @@ const ClientSingleNav = props => (
   </div>
 );
 
-const ClientSingle = props => {
-  const clientId = parseInt(props.match.params.id, 10);
+const LocationSingle = props => {
+  const clientId = parseInt(props.match.params.clientId, 10);
+  const locationId = parseInt(props.match.params.locationId, 10);
 
   if (!storesAreLoaded(props)) return <div className="loader" />;
 
   const selectedClient = props.clientsList.find(client => client.id === clientId);
+  const selectedLocation = props.locationList.find(location => location.id === locationId);
 
-  if (!selectedClient) return <Redirect to={`${routes.webRoot}/clients`} />;
+  if (!selectedClient || !selectedLocation) return <Redirect to={`${routes.webRoot}/dashboard`} />;
 
-  const clientReports = props.reportsList.filter(report => report.client.id === selectedClient.id);
-  const clientLocations = props.locationsList.filter(loc => loc.client.id === selectedClient.id);
+  const locationReports = props.reportsList.filter(
+    report => report.location.id === selectedLocation.id
+  );
+
+  const locationTechnicians = getTechniciansFromReports(locationReports);
 
   return (
     <div>
-      <ClientSingleNav
+      <LocationSingleNav
         client={selectedClient}
-        reports={clientReports}
-        locations={clientLocations}
+        location={selectedLocation}
+        reports={locationReports}
       />
-      <LocationList clientId={selectedClient.id} locations={clientLocations} me={props.me} />
+      <ReportList reports={locationReports} />
     </div>
   );
 };
 
 const mapStateToProps = state => ({
   clientsList: state.users.clients,
-  locationsList: state.locations.list,
+  locationList: state.locations.list,
   reportsList: state.reports.list,
   me: state.users.me
 });
 
-export default connect(mapStateToProps)(ClientSingle);
+export default connect(mapStateToProps)(LocationSingle);

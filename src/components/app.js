@@ -12,6 +12,8 @@ import Login from './login/login';
 
 import Dashboard from './dashboard/dashboard';
 
+import LocationSingle from './clients/location-single';
+
 import AddClient from './clients/add-client';
 import Clients from './clients/clients';
 import ClientSingle from './clients/client-single';
@@ -44,6 +46,12 @@ class App extends Component {
               <Switch>
                 {/*----- Dashboard Route -----*/}
                 <Route path={`${routes.webRoot}/dashboard`} component={Dashboard} />
+
+                {/*----- Location Routes -----*/}
+                <Route
+                  path={`${routes.webRoot}/clients/:clientId/locations/:locationId`}
+                  component={LocationSingle}
+                />
 
                 {/*----- Clients Routes -----*/}
                 <Route path={`${routes.webRoot}/clients/new`} component={AddClient} />
