@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 
 import routes from '../../../config/routes';
 
-import FilterSearchBar from '../common/filter-search-bar';
-import ListItem from '../common/list-item';
+import FilterSearchBar from './filter-search-bar';
+import ListItem from './list-item';
 
 class LocationList extends Component {
   constructor(props) {
@@ -21,13 +21,17 @@ class LocationList extends Component {
   searchLocations(locations) {
     return locations.filter(
       location =>
+        location.id
+          .toString()
+          .toLowerCase()
+          .startsWith(this.state.search) ||
         location.name.toLowerCase().startsWith(this.state.search) ||
         location.address.toLowerCase().startsWith(this.state.search)
     );
   }
 
   renderListItems() {
-    if (!this.props.locations || !this.props.me) return <div className="loader" />;
+    if (!this.props.locations) return <div className="loader" />;
 
     const filteredLocations = this.searchLocations(this.props.locations);
 

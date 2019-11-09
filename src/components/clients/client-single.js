@@ -8,7 +8,7 @@ import routes from '../../../config/routes';
 
 import InfoTile from '../common/info-tile';
 
-import LocationList from './location-list';
+import LocationList from '../common/location-list';
 
 const storesAreLoaded = props => {
   if (!props.clientsList) return false;
