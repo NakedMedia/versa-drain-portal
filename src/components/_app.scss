@@ -1,100 +1,100 @@
 html,
 body,
 .root {
-	height: 100%;
-	background-color: $white-ter;
+  height: 100%;
+  background-color: $white-ter;
 }
 
 ::placeholder {
-	color: $input-placeholder-color;
-	opacity: 1;
+  color: $input-placeholder-color;
+  opacity: 1;
 }
 
 :-ms-input-placeholder {
-	color: $input-placeholder-color;
+  color: $input-placeholder-color;
 }
 
 ::-ms-input-placeholder {
-	color: $input-placeholder-color;
+  color: $input-placeholder-color;
 }
 
 .input {
-	border-color: $input-border-color;
-	border-radius: $input-radius;
-	box-shadow: $input-shadow;
-	color: $input-color;
+  border-color: $input-border-color;
+  border-radius: $input-radius;
+  box-shadow: $input-shadow;
+  color: $input-color;
 }
 
 .textarea {
-	border-color: $input-border-color;
-	border-radius: $input-radius;
-	box-shadow: $input-shadow;
-	color: $input-color;
-	resize: none;
+  border-color: $input-border-color;
+  border-radius: $input-radius;
+  box-shadow: $input-shadow;
+  color: $input-color;
+  resize: none;
 }
 
 .notification {
-	border-radius: $notification-radius;
+  border-radius: $notification-radius;
 }
 
 .select select {
-	box-shadow: $input-shadow;
-	border-color: $input-border-color;
-	border-radius: $input-radius;
+  box-shadow: $input-shadow;
+  border-color: $input-border-color;
+  border-radius: $input-radius;
 }
 
 .is-size-7 {
-	font-size: 0.75rem;
+  font-size: 0.75rem;
 }
 
 .has-text-grey {
-	color: $grey;
+  color: $grey;
 }
 
 .has-text-grey-light {
-	color: $grey-light;
+  color: $grey-light;
 }
 
 .has-cursor-pointer {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .is-width-128 {
-	width: 128px;
+  width: 128px;
 }
 
 .level-vertical {
-	flex-direction: column;
+  flex-direction: column;
 }
 
 .vd-box-shadow {
-	box-shadow: $vd-box-shadow;
+  box-shadow: $vd-box-shadow;
 }
 
 .vd-profile-picture {
-	img {
-		border-radius: $radius-rounded;
-	}
+  img {
+    border-radius: $radius-rounded;
+  }
 }
 
 .vd-search-select {
-	width: 45%;
-	display: inline-block;
-	margin-right: 0.75rem;
-	box-shadow: $vd-box-shadow;
+  width: 45%;
+  display: inline-block;
+  margin-right: 0.75rem;
+  box-shadow: $vd-box-shadow;
 
-	.Select-control {
-		border-radius: $input-radius;
-		border: none;
-	}
-}
+  &.is-danger {
+    border: 1px solid $primary;
+  }
 
-.vd-search-select-danger {
-	border: 1px solid $primary;
+  .Select-control {
+    border-radius: $input-radius;
+    border: none;
+  }
 }
 
 .vd-content {
-	background-color: $white-ter;
-	padding: 2rem 1rem;
-	height: 100%;
+  background-color: $white-ter;
+  padding: 2rem 1rem;
+  height: 100%;
 }

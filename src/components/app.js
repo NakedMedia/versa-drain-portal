@@ -12,6 +12,7 @@ import Login from './login/login';
 
 import Dashboard from './dashboard/dashboard';
 
+import AddEditLocation from './clients/locations/add-edit-location';
 import LocationSingle from './clients/locations/location-single';
 
 import AddClient from './clients/add-client';
@@ -48,6 +49,7 @@ class App extends Component {
                 <Route path={`${routes.webRoot}/dashboard`} component={Dashboard} />
 
                 {/*----- Location Routes -----*/}
+                <Route path={`${routes.webRoot}/locations/new`} component={AddEditLocation} />
                 <Route
                   path={`${routes.webRoot}/clients/:clientId/locations/:locationId`}
                   component={LocationSingle}
