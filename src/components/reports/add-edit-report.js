@@ -2,11 +2,8 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import withRouter from 'react-router-dom/es/withRouter';
+import { withRouter } from 'react-router-dom';
 import Select from 'react-select';
-
-import routes from '../../../config/routes';
 
 import * as actions from '../../actions';
 
@@ -182,13 +179,13 @@ class AddEditReport extends Component {
 
     if (selectedReportId) {
       return this.props.updateReport(report).then(res => {
-        if (res.payload.status === 200) this.setState({ finished: true });
+        if (res.payload.status === 200) this.props.history.go(-1);
         else this.setState({ isLoading: false });
       });
     }
 
     return this.props.createReport(report).then(res => {
-      if (res.payload.status === 200) this.setState({ finished: true });
+      if (res.payload.status === 200) this.props.history.go(-1);
       else this.setState({ isLoading: false });
     });
   }
@@ -265,7 +262,6 @@ class AddEditReport extends Component {
 
   render() {
     if (!this.props.me) return <div className="loader" />;
-    if (this.state.finished) return <Redirect to={`${routes.webRoot}/reports`} />;
 
     return (
       <form className="form">
