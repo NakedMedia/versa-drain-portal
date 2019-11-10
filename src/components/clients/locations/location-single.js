@@ -72,7 +72,7 @@ const LocationSingle = props => {
   const locationEmployees = getTechniciansFromReports(locationReports);
 
   const onEdit = report => props.history.push(`${routes.webRoot}/reports/${report.id}/edit`);
-  const onDelete = report => props.deleteLocation(report);
+  const onDelete = report => props.deleteReport(report);
 
   const isAdmin = props.me.type === 'admin';
 

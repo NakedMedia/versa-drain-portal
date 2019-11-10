@@ -89,7 +89,7 @@ export function updateReport(report) {
 export function deleteReport(report) {
   return {
     type: types.DELETE_REPORT,
-    payload: axios.delete(`${routes.apiRoot}/reports/${report.id}`, report)
+    payload: axios.delete(`${routes.apiRoot}/reports/${report.id}`)
   };
 }
 
