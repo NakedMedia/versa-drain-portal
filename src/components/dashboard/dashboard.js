@@ -20,6 +20,7 @@ const Dashboard = props => {
   }
 
   function renderClientTile(clientList) {
+    if (!props.me || props.me.type === 'client') return null;
     if (!clientList) return null;
 
     return (

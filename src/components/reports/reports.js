@@ -23,13 +23,14 @@ const Reports = props => {
   const onEdit = report => props.history.push(`${routes.webRoot}/reports/${report.id}/edit`);
   const onDelete = report => props.deleteReport(report);
 
+  const clients = props.me.type !== 'client' ? props.clients : null;
   const isAdmin = props.me.type === 'admin';
 
   return (
     <ReportList
       reports={props.reports}
       employees={props.employees}
-      clients={props.clients}
+      clients={clients}
       locations={props.locations}
       onEdit={onEdit}
       onDelete={onDelete}

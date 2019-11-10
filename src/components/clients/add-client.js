@@ -115,7 +115,7 @@ class AddEditClient extends Component {
         media_id
       })
       .then(res => {
-        if (res.payload.status === 200) this.setState({ finished: true });
+        if (res.payload.status === 200) this.props.history.push(`${routes.webRoot}/clients`);
         else this.setState({ isLoading: false });
       });
   }
@@ -145,9 +145,7 @@ class AddEditClient extends Component {
   render() {
     if (!this.props.me) return <div className="loader" />;
 
-    if (this.state.finished || this.props.me.type !== 'admin') {
-      return <Redirect to={`${routes.webRoot}/clients`} />;
-    }
+    if (this.props.me.type !== 'admin') return <Redirect to={`${routes.webRoot}/dashboard`} />;
 
     return (
       <div className="box">

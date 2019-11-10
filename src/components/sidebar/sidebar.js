@@ -29,6 +29,21 @@ export default props => {
     );
   }
 
+  function renderClientsLink(type) {
+    if (type === 'client') return null;
+
+    return (
+      <li>
+        <NavLink activeClassName="is-active" to={`${routes.webRoot}/clients`}>
+          <span className="icon is-medium">
+            <i className="fas fa-briefcase" />
+          </span>
+          <span>Clients</span>
+        </NavLink>
+      </li>
+    );
+  }
+
   function renderTechniciansLink(type) {
     if (type === 'employee') return null;
 
@@ -64,14 +79,7 @@ export default props => {
                     <span>Dashboard</span>
                   </NavLink>
                 </li>
-                <li>
-                  <NavLink activeClassName="is-active" to={`${routes.webRoot}/clients`}>
-                    <span className="icon is-medium">
-                      <i className="fas fa-briefcase" />
-                    </span>
-                    <span>Clients</span>
-                  </NavLink>
-                </li>
+                {renderClientsLink(props.user.type)}
                 {renderTechniciansLink(props.user.type)}
                 <li>
                   <NavLink activeClassName="is-active" to={`${routes.webRoot}/reports`}>
