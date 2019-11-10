@@ -12,7 +12,9 @@ const Technicians = props => {
   if (!props.employees || !props.me) return <div className="loader" />;
   if (props.me.type === 'employee') return <Redirect to={`${routes.webRoot}/dashboard`} />;
 
-  const onEdit = employee => props.history.push(`${routes.webRoot}/employees/${employee.id}/edit`);
+  const onEdit = employee =>
+    props.history.push(`${routes.webRoot}/technicians/${employee.id}/edit`);
+
   const onDelete = employee => props.deleteUser(employee);
 
   const isAdmin = props.me.type === 'admin';
