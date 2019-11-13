@@ -267,6 +267,9 @@ class AddEditReport extends Component {
   render() {
     if (!this.props.me) return <div className="loader" />;
 
+    // In update mode if id param is set
+    const isUpdate = this.props.match.params.id;
+
     return (
       <form className="form">
         <div className="field">
@@ -310,7 +313,7 @@ class AddEditReport extends Component {
           {this.renderImages(this.state.media_urls)}
           {this.renderAddImage()}
         </div>
-        <div className="field">
+        <div className="field" hidden={isUpdate}>
           <input
             type="checkbox"
             onChange={({ target }) => this.setState({ notify: target.checked })}
@@ -327,7 +330,7 @@ class AddEditReport extends Component {
               type="submit"
               className={`button is-primary ${this.state.isLoading ? 'is-loading' : ''}`}
             >
-              Submit
+              {isUpdate ? 'Save' : 'Submit'}
             </button>
           </div>
           <div className="control">
