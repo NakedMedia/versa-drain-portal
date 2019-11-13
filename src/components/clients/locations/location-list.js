@@ -38,7 +38,7 @@ class LocationList extends Component {
 
       const fields = {
         'Location ID': `#${location.id}`,
-        Address: location.address,
+        Address: <a href={`https://maps.google.com/?q=${location.address}`}>{location.address}</a>,
         'Contact Name': location.contact_name,
         'Contact Email': location.email,
         'Contact Phone': location.phone
