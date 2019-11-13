@@ -36,6 +36,7 @@ class AddEditReport extends Component {
       availableLocations: props.locations
         ? props.locations.filter(loc => loc.client.id === selectedReport.client.id)
         : [],
+      notify: false,
       errors: {}
     };
   }
@@ -66,6 +67,7 @@ class AddEditReport extends Component {
       availableLocations: newProps.locations
         ? newProps.locations.filter(loc => loc.client.id === selectedReport.client.id)
         : [],
+      notify: false,
       errors: {}
     };
   }
@@ -146,6 +148,7 @@ class AddEditReport extends Component {
     const employee_id = this.props.me.type === 'admin' ? this.state.employee_id : this.props.me.id;
     const location_id = this.state.location_id;
     const media_ids = this.state.media_ids;
+    const notify = this.state.notify;
 
     if (!client_id || !employee_id || !location_id || !description) {
       return this.setState({
@@ -174,7 +177,8 @@ class AddEditReport extends Component {
       employee_id,
       client_id,
       location_id,
-      media_ids
+      media_ids,
+      notify
     };
 
     if (selectedReportId) {
@@ -305,6 +309,16 @@ class AddEditReport extends Component {
         <div className="field is-grouped is-grouped-multiline">
           {this.renderImages(this.state.media_urls)}
           {this.renderAddImage()}
+        </div>
+        <div className="field">
+          <input
+            type="checkbox"
+            onChange={({ target }) => this.setState({ notify: target.checked })}
+            checked={this.state.notify}
+          />
+          <label className="checkbox" htmlFor="notify" style={{ marginLeft: '5px' }}>
+            Send Email Notification
+          </label>
         </div>
         <div className="field is-grouped">
           <div className="control">
